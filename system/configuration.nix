@@ -91,6 +91,7 @@
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
+    ripgrep
     gcc
     foot
     libsixel
@@ -104,6 +105,8 @@
     fzf
     jq
     p7zip
+    xdg-desktop-portal-hyprland
+    xdg-desktop-portal-gtk
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg:
@@ -129,6 +132,11 @@
     enable = true;
     xwayland.enable = true;
     portalPackage = pkgs.xdg-desktop-portal-hyprland;
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [xdg-desktop-portal-gtk];
   };
 
   fonts.packages = with pkgs; [
