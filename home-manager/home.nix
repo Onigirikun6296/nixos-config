@@ -118,99 +118,107 @@
     ];
   };
 
-  xdg.configFile."lf/icons".source = pkgs.fetchurl {
-    url = "https://raw.githubusercontent.com/gokcehan/lf/master/etc/icons.example";
-    hash = "sha256-c0orDQO4hedh+xaNrovC0geh5iq2K+e+PZIL5abxnIk=";
-  };
-
   programs = {
-    lf = {
+    yazi = {
       enable = true;
-      commands = let
-        paste = pkgs.writeShellScript "paste" ''
-          #!/bin/sh
-          set -- $(cat ~/.local/share/lf/files)
-          mode="$1"
-          shift
-          case "$mode" in
-              copy)
-                  rsync -av --ignore-existing --progress -- "$@" . |
-                  stdbuf -i0 -o0 -e0 tr '\r' '\n' |
-                  while IFS= read -r line; do
-                      lf -remote "send $id echo $line"
-                  done
-                  ;;
-              move) mv -n -- "$@" .;;
-          esac
-          rm ~/.local/share/lf/files
-          lf -remote "send clear"
+      initLua =
+        pkgs.writeText "init.lua"
+        /*
+        lua
+        */
+        ''
+          require("full-border"):setup()
+          require("relative-motions"):setup({ show_numbers = "relative", show_motion = true })
         '';
+      keymap = {
+        manager = {
+          prepend_keymap =
+            [
+              {
+                run = "plugin --sync hide-preview";
+                on = ["z" "p"];
+              }
+              {
+                run = "hidden toggle";
+                on = ["z" "a"];
+              }
+              {
+                run = "shell '$SHELL' --block --confirm";
+                on = ["w"];
+              }
+              {
+                run = "tasks_show";
+                desc = "Show the tasks manager";
+                on = ["t"];
+              }
+              {
+                run = "plugin --sync smart-enter";
+                desc = "Enter the child directory, or open the file";
+                on = ["l"];
+              }
+              {
+                run = "plugin --sync smart-enter";
+                desc = "Enter the child directory, or open the file";
+                on = ["<Enter>"];
+              }
+            ]
+            ++ (
+              builtins.concatLists (builtins.genList (
+                  x: let
+                    idx = builtins.toString x;
+                  in [
+                    {
+                      run = "plugin relative-motions --args=${idx}";
+                      on = ["${idx}"];
+                    }
+                  ]
+                )
+                10)
+            );
+        };
+      };
+
+      plugins = let
+        plugin-src = pkgs.fetchgit {
+          url = "https://github.com/yazi-rs/plugins/";
+          hash = "sha256-iiHkU5DYfDkcBA/XTzTYBuHbdM58iZQt8lEMzagnwcM=";
+        };
+        smart-enter =
+          pkgs.writeTextDir "smart-enter.yazi/init.lua"
+          /*
+          lua
+          */
+          ''
+            return {
+            	entry = function()
+            		local h = cx.active.current.hovered
+            		ya.manager_emit(h and h.cha.is_dir and "enter" or "open", { hovered = true })
+            	end,
+            }
+          '';
       in {
-        editor-open = ''$$EDITOR $f'';
-        paste = ''&{{${paste}}}'';
-        trash = ''%trash-put $fx'';
+        hide-preview = "${plugin-src}/hide-preview.yazi";
+        full-border = "${plugin-src}/full-border.yazi";
+        relative-motions = pkgs.fetchgit {
+          url = "https://github.com/dedukun/relative-motions.yazi";
+          hash = "sha256-S1kdCFPMs1xpjTSBfU49hucPjgtP7J+WcgTH8hijYNU=";
+        };
+        smart-enter = "${smart-enter}/smart-enter.yazi";
       };
       settings = {
-        preview = false;
-        drawbox = true;
-        icons = true;
-        ignorecase = true;
-        sixel = true;
-        ratios = [1 5];
-		tabstop = 4;
+        manager = {
+          ratio = [1 2 3];
+          show_symlink = false;
+        };
+        preview = {
+          tab_size = 4;
+        };
       };
-      keybindings = let
-        toggle_preview = pkgs.writeShellScript "toggle_preview" ''
-          #!/bin/sh
-             if [ "$lf_preview" = "true" ]; then
-                 lf -remote "send $id :set preview false; set ratios 1:5"
-             else
-                 lf -remote "send $id :set preview true; set ratios 1:2:3"
-             fi
-        '';
-        bulk-rename = pkgs.writeShellScript "bulk-rename" ''
-          #!/bin/sh
-          old="$(mktemp)"
-          new="$(mktemp)"
-          if [ -n "$fs" ]; then
-              fs="$(basename -a $fs)"
-          else
-              fs="$(ls)"
-          fi
-          printf '%s\n' "$fs" >"$old"
-          printf '%s\n' "$fs" >"$new"
-          $EDITOR "$new"
-          [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
-          paste "$old" "$new" | while IFS= read -r names; do
-              src="$(printf '%s' "$names" | cut -f1)"
-              dst="$(printf '%s' "$names" | cut -f2)"
-              if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
-                  continue
-              fi
-              mv -- "$src" "$dst"
-          done
-          rm -- "$old" "$new"
-          lf -remote "send $id unselect"
-
-        '';
-      in {
-        "<enter>" = "open";
-        "zp" = ''''$${toggle_preview}'';
-        "DD" = "trash";
-        "R" = ''''$${bulk-rename}'';
-      };
-      previewer = {
-        keybinding = "i";
-        source = pkgs.writeShellScript "pv.sh" ''
-          #!/bin/sh
-          case $1 in
-             *.tar*) tar tf "$1";;
-             *.7z|*.zip|*.rar) 7z l "$1";;
-             *.pdf) pdftotext "$1" -;;
-             *.png|*.jpg|*.webp|*.gif) img2sixel -S -w $(($2 * 5)) -h auto $1;;
-             *) highlight -O ansi "$1" || cat "$1";;
-          esac
-        '';
+      theme = {
+        status = {
+          separator_open = " ";
+          separator_close = " ";
+        };
       };
     };
 
@@ -273,6 +281,8 @@
       userEmail = userSettings.email;
     };
 
+    bash.enable = true;
+
     fish = {
       enable = true;
       shellInit =
@@ -284,8 +294,8 @@
           fish_hybrid_key_bindings
           set -xU MANPAGER 'less'
           set -xU MANROFFOPT '-P -c'
-          bind -M default \cf lf
-          bind -M insert \cf lf
+          bind -M default \cf yazi
+          bind -M insert \cf yazi
 
         '';
       shellAliases = {
@@ -363,8 +373,13 @@
         sh
         */
         ''
-          set-option -sa terminal-features ',foot:RGB'
           set-option -g focus-events on
+          set -g default-terminal 'tmux-256color'
+          set-option -sa terminal-features ',xterm-256color:RGB'
+
+          set -g allow-passthrough on
+          set -ga update-environment TERM
+          set -ga update-environment TERM_PROGRAM
 
           bind | split-window -h -c '#{pane_current_path}'
           bind - split-window -v -c '#{pane_current_path}'
@@ -515,7 +530,7 @@
         startup_slave_screen = "playlist";
         startup_slave_screen_focus = "yes";
         locked_screen_width_part = "45";
-        external_editor = "nvim";
+        external_editor = "$EDITOR";
       };
     };
 
@@ -746,7 +761,7 @@
   #  /etc/profiles/per-user/oni/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "${pkgs.neovim}/bin/nvim";
     SHELL = userSettings.shell;
   };
 

@@ -210,7 +210,7 @@ in {
           " $mod SHIFT, Space, togglefloating, "
           " $mod SHIFT, G, exec, ${userSettings.term} btm"
           " $mod SHIFT, D, exec, ${userSettings.file-manager}"
-          " $mod, Tab, exec, ${userSettings.term} lf ~/Storage/ "
+          " $mod, Tab, exec, ${userSettings.term} yazi "
           " $mod, Print, exec, $HOME/.scripts/prtsc.sh"
           " $mod SHIFT, minus, exec, $HOME/.scripts/gaps.sh dec"
           " $mod SHIFT, equal, exec, $HOME/.scripts/gaps.sh inc"
