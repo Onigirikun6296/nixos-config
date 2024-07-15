@@ -266,30 +266,93 @@
           width = 40;
           height = 20;
         };
+        display = {
+          separator = " ";
+          color = {
+            separator = "white";
+          };
+        };
         modules = [
-          "os"
-          "separator"
-          "host"
-          "kernel"
-          "packages"
-          "shell"
-          "de"
-          "wm"
-          "terminal"
+          {
+            type = "custom";
+            format = "{#1}{#keys}{#39}╭───────────────System Information────────────────╮";
+          }
+          {
+            type = "os";
+            key = "{#33}  󰟾 os       ";
+            format = "{2} {11}";
+          }
+          {
+            type = "host";
+            key = "{#33}  󰟾 host     ";
+          }
+          {
+            type = "kernel";
+            key = "{#31}   kernel   ";
+          }
+          {
+            type = "packages";
+            key = "{#33}  󰟾 packages ";
+          }
+          {
+            type = "shell";
+            key = "{#36}   shell    ";
+          }
+          {
+            type = "de";
+            key = "{#34}  󰇄 desktop  ";
+          }
+          {
+            type = "wm";
+            key = "{#34}  󰇄 wm       ";
+          }
+          {
+            type = "terminal";
+            key = "{#35}   term     ";
+          }
           {
             type = "cpu";
-            format = "{1} {2}";
+            key = "{#35}  󰍛 cpu      ";
+            format = "{1}";
           }
-          "memory"
-          "break"
-          "break"
-          "break"
-          "colors"
-          "break"
-          "separator"
           {
-            type = "title";
-            format = "Art by @raika9";
+            type = "memory";
+            key = "{#32}   memory   ";
+            format = "";
+          }
+          {
+            type = "colors";
+            key = "{#39}   colors   ";
+            symbol = "circle";
+            format = "";
+          }
+          {
+            type = "custom";
+            format = "{#1}{#keys}{#39}╰─────────────────────────────────────────────────╯";
+          }
+          {
+            type = "break";
+            format = "";
+          }
+          {
+            type = "break";
+            format = "";
+          }
+          {
+            type = "break";
+            format = "";
+          }
+          {
+            type = "break";
+            format = "";
+          }
+          {
+            type = "break";
+            format = "";
+          }
+          {
+            type = "custom";
+            format = "{#1}{#keys}{#39}                                     Art by @raika9";
           }
         ];
       };
