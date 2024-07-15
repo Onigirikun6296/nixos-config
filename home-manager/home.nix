@@ -59,6 +59,7 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
+      nil
       waybar
       dfc
       pyprland
