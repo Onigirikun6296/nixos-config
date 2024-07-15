@@ -118,6 +118,11 @@ in {
             on-timeout = "loginctl lock-session && hyprctl dispatch dmps off";
             on-resume = "hyprctl dispatch dpms on";
           }
+          {
+            timeout = 500;
+            on-timeout = "loginctl lock-session && hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
         ];
       };
     };
@@ -187,7 +192,7 @@ in {
         ];
       };
       master = {
-        new_is_master = "false";
+        new_status = "slave";
         no_gaps_when_only = "false";
         orientation = "left";
       };
