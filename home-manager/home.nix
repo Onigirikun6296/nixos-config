@@ -122,13 +122,29 @@
     yazi = {
       enable = true;
       initLua =
-        pkgs.writeText "init.lua"
         /*
         lua
         */
         ''
           require("full-border"):setup()
           require("relative-motions"):setup({ show_numbers = "relative", show_motion = true })
+          require("session"):setup {
+          	sync_yanked = true,
+          }
+
+          function Status:name()
+          	local h = cx.active.current.hovered
+          	if not h then
+          		return ui.Span("")
+          	end
+
+          	local linked = ""
+          	if h.link_to ~= nil then
+          		linked = " -> " .. tostring(h.link_to)
+          	end
+          	return ui.Span(" " .. h.name .. linked)
+          end
+
         '';
       keymap = {
         manager = {
@@ -160,6 +176,10 @@
                 run = "plugin --sync smart-enter";
                 desc = "Enter the child directory, or open the file";
                 on = ["<Enter>"];
+              }
+              {
+                run = ["yank" ''shell --confirm 'for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list' ''];
+                on = ["y"];
               }
             ]
             ++ (
