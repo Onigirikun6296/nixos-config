@@ -75,9 +75,9 @@ in {
 
     settings = {
       fonts = {
-        default_family = [userSettings.jpFont userSettings.emojiFont];
-        prompts = userSettings.jpFont;
-        default_size = "12pt";
+        default_family = [userSettings.mainFont userSettings.jpFont userSettings.emojiFont];
+        prompts = userSettings.mainFont;
+        default_size = "14pt";
       };
       content = {
         notifications = {
