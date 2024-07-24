@@ -85,7 +85,7 @@ in {
             color = "rgba(250, 250, 250, 1.0)";
             font_size = 12;
             font_family = "${userSettings.jpFont}";
-            position = "0, 0";
+            position = "0, 10";
             halign = "center";
             valign = "borrom";
           }
@@ -222,8 +222,9 @@ in {
           " $mod, equal, exec, $HOME/.scripts/gaps.sh reset"
           " $mod, F3, exec, hyprlock"
           " , XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle"
-          " , XF86AudioRaiseVolume, exec, ~/.scripts/changeVolume 2dB+ unmute"
-          " , XF86AudioLowerVolume, exec, ~/.scripts/changeVolume 2dB- unmute"
+          " , XF86AudioRaiseVolume, exec, ~/.scripts/changeVolume +5%"
+          " , XF86AudioLowerVolume, exec, ~/.scripts/changeVolume -5%"
+          " , XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
           " $mod,grave,exec,pypr toggle term"
           " $mod,n,exec,pypr toggle ncmpcpp"
           " $mod,m,exec,pypr toggle mail"
