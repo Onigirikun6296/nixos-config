@@ -54,8 +54,6 @@
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
-  # Enable sound.
-  sound.enable = true;
   # hardware.pulseaudio.enable = true;
   services.pipewire = {
     enable = true;
