@@ -1,0 +1,23 @@
+--- a/meson.build	2024-07-24 22:44:31.342825420 +0300
++++ b/meson.build	2024-07-24 22:46:10.508969742 +0300
+@@ -1,3 +1,4 @@
++
+ # Rules for building with Meson
+ 
+ project(
+@@ -44,6 +45,7 @@
+ rt = cc.find_library('rt')
+ # optional dependencies: file formats support
+ exr = dependency('OpenEXR', version: '>=3.1', required: get_option('exr'))
++gif = cc.find_library('gif', required: get_option('gif'))
+ heif = dependency('libheif', required: get_option('heif'))
+ avif = dependency('libavif', required: get_option('avif'))
+ jpeg = dependency('libjpeg', required: get_option('jpeg'))
+@@ -54,7 +56,6 @@
+ webp = dependency('libwebp', required: get_option('webp'))
+ webp_demux = dependency('libwebpdemux', required: get_option('webp'))
+ # hack to build "pkgconfigless" gif in FreeBSD
+-gif = cc.find_library('gif', dirs: wlcln.get_variable(pkgconfig: 'libdir'), required: get_option('gif'))
+ # optional dependencies: other features
+ exif = dependency('libexif', required: get_option('exif'))
+ bash = dependency('bash-completion', required: get_option('bash'))

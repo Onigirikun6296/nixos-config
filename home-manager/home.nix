@@ -36,7 +36,20 @@
       };
     };
 
-    overlays = [];
+    overlays = [
+      (final: prev: {
+        swayimg = prev.swayimg.overrideAttrs (prev: {
+          version = "2.5";
+          src = pkgs.fetchFromGitHub {
+            owner = "artemsen";
+            repo = "swayimg";
+            rev = "v2.5";
+            hash = "sha256-wr0XNcWHcmxj8CW6faq4876q8ADRpQuX5PCVX1l3IZ8=";
+          };
+		  patches = [./patches/swayimg.patch];
+        });
+      })
+    ];
   };
 
   # The home.packages option allows you to install Nix packages into your
@@ -74,7 +87,6 @@
       ffmpeg
       yt-dlp
       gallery-dl
-      sxiv
       zathura
       lazygit
       libcanberra-gtk3
@@ -98,6 +110,7 @@
       pinentry-qt
       vesktop
       trash-cli
+      swayimg
     ]
     ++ (with kdePackages; [
       dolphin
@@ -280,12 +293,12 @@
           }
           {
             type = "os";
-            key = "{#33}  󰟾 os       ";
+            key = "{#33}   os       ";
             format = "{2} {11}";
           }
           {
             type = "host";
-            key = "{#33}  󰟾 host     ";
+            key = "{#33}  󰇄 host     ";
           }
           {
             type = "kernel";
@@ -305,7 +318,7 @@
           }
           {
             type = "wm";
-            key = "{#34}  󰇄 wm       ";
+            key = "{#34}   wm       ";
           }
           {
             type = "terminal";
@@ -719,17 +732,13 @@
       settings = {
         global = {
           follow = "mouse";
-          geometry = "320x5-15+15";
           indicate_hidden = "yes";
           shrink = "no";
-          transparency = "10";
-          notification_height = "70";
-          seperator_height = "2";
-          padding = "40";
-          horizontal_padding = "8";
-          frame_width = "3";
+          offset = "15x15";
+          padding = "20";
+          gap_size = "10";
+          frame_width = "1";
           frame_color = "#FFFFFF";
-          sort = "yes";
           idle_threshold = "120";
           font = "${userSettings.mainFont} 10";
           line_height = "0";
@@ -741,11 +750,11 @@
           stack_duplicates = "true";
           show_indicators = "yes";
           icon_position = "left";
-          max_icon_size = "32";
-          corner_radius = "5";
           progress_bar_frame_width = "1";
           progress_bar_height = "5";
+          progress_bar_max_width = "200";
           progress_bar_corner_radius = "5";
+          sort = "update";
         };
 
         urgency_low = {
@@ -769,10 +778,10 @@
 
     mpd = {
       enable = true;
-      musicDirectory = builtins.toPath "${userSettings.homeDirectory}/Music";
+      musicDirectory = /. + "${userSettings.homeDirectory}/Music";
       dbFile = "~/.config/mpd/database";
-      playlistDirectory = builtins.toPath "${userSettings.homeDirectory}/.config/mpd/playlists";
-      dataDir = builtins.toPath "${userSettings.homeDirectory}/.config/mpd/state";
+      playlistDirectory = /. + "${userSettings.homeDirectory}/.config/mpd/playlists";
+      dataDir = /. + "${userSettings.homeDirectory}/.config/mpd/state";
       network = {
         port = 6600;
       };
@@ -799,11 +808,11 @@
     defaultApplications = {
       "application/pdf" = ["org.pwmt.zathura.desktop"];
       "application/vnd.microsoft.portable-executable" = ["wine.desktop"];
-      "image/png" = ["sxiv.desktop"];
-      "image/jpg" = ["sxiv.desktop"];
-      "image/jpeg" = ["sxiv.desktop"];
-      "image/webp" = ["sxiv.desktop"];
-      "image/gif" = ["mpv.desktop"];
+      "image/png" = ["swayimg.desktop"];
+      "image/jpg" = ["swayimg.desktop"];
+      "image/jpeg" = ["swayimg.desktop"];
+      "image/webp" = ["swayimg.desktop"];
+      "image/gif" = ["swayimg.desktop"];
       "video/*" = ["mpv.desktop"];
     };
   };
