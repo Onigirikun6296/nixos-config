@@ -464,7 +464,19 @@
       mouse = true;
       escapeTime = 10;
       shell = userSettings.shell;
-      extraConfig =
+      extraConfig = let
+        despell = pkgs.rustPlatform.buildRustPackage {
+          pname = "despell";
+          version = "1.0.1";
+          src = pkgs.fetchFromGitHub {
+            owner = "bensadeh";
+            repo = "despell";
+            rev = "55470ff1290f2d67b879b6a666bbbfa3e46f1853";
+            hash = "sha256-hivn/jFPAXiak87KyWOZS+1jDDgtekBpX4YVg7tict0=";
+          };
+          cargoHash = "sha256-ZuUawa774AkP3Ewg8dFYMuATamlhE71y/P6DsyZLpAY=";
+        };
+      in
         /*
         sh
         */
@@ -505,7 +517,7 @@
           set -g status-style bg=default
 
           set -g status-left ' #S '
-          set -g window-status-current-format "#[fg=#3b383e, bg=#a9dc76, bold] #I #[fg=#a9dc76,bg=#3b383e, bold] #W "
+          set -g window-status-current-format "#[fg=#3b383e, bg=#a9dc76, bold] #I #[fg=#a9dc76,bg=#3b383e, bold] #(${despell}/bin/despell #W) #W "
           set -g status-right "#[fg=#3b383e, bg=#a9dc76, bold]  #[fg=#a9dc76,bg=#3b383e, bold] #(fish -c 'prompt_pwd $(tmux display-message -p '#{pane_current_path}')')  #[default] "
 
           bind [ copy-mode
