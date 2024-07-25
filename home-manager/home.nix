@@ -109,7 +109,6 @@
       octave
       pinentry-qt
       vesktop
-      trash-cli
       swayimg
     ]
     ++ (with kdePackages; [
