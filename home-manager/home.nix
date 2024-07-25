@@ -825,6 +825,111 @@
 
     '';
 
+    ".config/swayimg/config".text = lib.generators.toINI {} {
+      general = {
+        scale = "optimal";
+        fullscreen = "no";
+        antialiasing = "no";
+        fixed = "yes";
+        transparency = "#00000000";
+        position = "parent";
+        size = "parent";
+        background = "#00000000";
+        slideshow = "no";
+        slideshow_time = 3;
+        gallery = "no";
+      };
+      gallery = {
+        size = 150;
+        antialiasing = "no";
+        window = "#00000000";
+        background = "#202020";
+        select = "#404040";
+      };
+      list = {
+        order = "alpha";
+        loop = "yes";
+        recursive = "no";
+        all = "yes";
+        cache = 1;
+        preload = 1;
+      };
+      font = {
+        name = "${userSettings.jpFont}";
+        size = 12;
+        color = "#cccccc";
+        shadow = "#000000a0";
+      };
+      info = {
+        mode = "brief";
+        timeout = 0;
+        "full.topleft" = "name,format,filesize,imagesize,exif";
+        "full.topright" = "index";
+        "full.bottomleft" = "scale,frame";
+        "full.bottomright" = "status";
+        "brief.topleft" = "index";
+        "brief.topright" = "none";
+        "brief.bottomleft" = "none";
+        "brief.bottomright" = "status";
+      };
+      keys = {
+        F1 = "help";
+        Home = "first_file";
+        End = "last_file";
+        p = "prev_file";
+        n = "next_file";
+        Space = "next_file";
+        "Shift+d" = "prev_dir";
+        d = "next_dir";
+        "Shift+o" = "prev_frame";
+        o = "next_frame";
+        c = "skip_file";
+        "Shift+s" = "slideshow";
+        s = "animation";
+        f = "fullscreen";
+        Return = "mode";
+        Left = "step_left 10";
+        Right = "step_right 10";
+        Up = "step_up 10";
+        Down = "step_down 10";
+        h = "step_left 10";
+        l = "step_right 10";
+        k = "step_up 10";
+        j = "step_down 10";
+        Equal = "zoom real";
+        "Shift+Plus" = "zoom +10";
+        Minus = "zoom -10";
+        w = "zoom width";
+        "Shift+w" = "zoom height";
+        z = "zoom fit";
+        "Shift+z" = "zoom fill";
+        "0" = "zoom real";
+        Backspace = "zoom optimal";
+        "Shift+less" = "rotate_left";
+        "Shift+greater" = "rotate_right";
+        m = "flip_vertical";
+        "Shift+m" = "flip_horizontal";
+        a = "antialiasing";
+        r = "reload";
+        i = "info";
+        e = "exec echo \"Image: %\"";
+        Escape = "exit";
+        q = "exit";
+      };
+      mouse = {
+        ScrollLeft = "step_right 5";
+        ScrollRight = "step_left 5";
+        ScrollUp = "step_up 5";
+        ScrollDown = "step_down 5";
+        "Ctrl+ScrollUp" = "zoom +10";
+        "Ctrl+ScrollDown" = "zoom -10";
+        "Shift+ScrollUp" = "prev_file";
+        "Shift+ScrollDown" = "next_file";
+        "Alt+ScrollUp" = "prev_frame";
+        "Alt+ScrollDown" = "next_frame";
+      };
+    };
+
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
