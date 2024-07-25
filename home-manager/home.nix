@@ -2,6 +2,7 @@
   config,
   pkgs,
   userSettings,
+  lib,
   ...
 }: {
   imports = [
@@ -46,7 +47,7 @@
             rev = "v2.5";
             hash = "sha256-wr0XNcWHcmxj8CW6faq4876q8ADRpQuX5PCVX1l3IZ8=";
           };
-		  patches = [./patches/swayimg.patch];
+          patches = [./patches/swayimg.patch];
         });
       })
     ];
