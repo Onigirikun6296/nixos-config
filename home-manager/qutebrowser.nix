@@ -133,8 +133,8 @@ in {
 
     settings = {
       fonts = {
-        default_family = ["Hack Nerd Font" userSettings.emojiFont];
-        prompts = userSettings.mainFont;
+        default_family = [userSettings.jpFont userSettings.emojiFont];
+        prompts = userSettings.jpFont;
         default_size = "10pt";
       };
       content = {
@@ -216,7 +216,7 @@ in {
         url = "https://raw.githubusercontent.com/insin/control-panel-for-twitter/master/script.js";
         hash = "sha256-pISk/Fhix1PHjxdyEh9fU8j7AyAGccYBsUMYfrapEBQ=";
         postFetch = ''
-          patch -Np1 $out ${userSettings.flake-path}/home-manager/patches/control-panel-for-twitter.patch
+		  patch -Np1 $out ${userSettings.flake-path}/home-manager/patches/control-panel-for-twitter.patch
         '';
       };
       disable-youtube-video-ads = pkgs.fetchurl {
