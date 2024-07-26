@@ -79,7 +79,7 @@
         ];
         extraSpecialArgs = {
           inherit userSettings;
-		  inherit self;
+          inherit self;
         };
       };
     };
