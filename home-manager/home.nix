@@ -973,6 +973,7 @@
   home.sessionVariables = {
     EDITOR = "${pkgs.neovim}/bin/nvim";
     SHELL = userSettings.shell;
+    TERMINAL = "${userSettings.term}";
   };
 
   systemd.user.services = {
