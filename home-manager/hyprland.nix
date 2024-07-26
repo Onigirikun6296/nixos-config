@@ -206,6 +206,8 @@ in {
         "float,title:^(hydrus client booting)$ "
         "float,title:^(hydrus client exiting)(.*)$"
         "move cursor -50% -50%,title:^(new page — hydrus client)(.*)$"
+        "float, title:^(yomichad)$"
+        "move cursor -50% -50%, title:^(yomichad)$"
       ];
       "$mod" = "SUPER";
       bind =
