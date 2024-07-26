@@ -66,7 +66,7 @@
         };
 
         bluetooth = {
-          format = " {status} ";
+          format = " {status}";
           format-disabled = "";
           format-connected = " {device_alias}";
           format-connected-battery = " {device_alias} {device_battery_percentage}%";

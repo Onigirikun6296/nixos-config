@@ -133,9 +133,9 @@ in {
 
     settings = {
       fonts = {
-        default_family = [userSettings.mainFont userSettings.jpFont userSettings.emojiFont];
+        default_family = ["Hack Nerd Font" userSettings.emojiFont];
         prompts = userSettings.mainFont;
-        default_size = "14pt";
+        default_size = "10pt";
       };
       content = {
         notifications = {

@@ -39,12 +39,12 @@
 
     overlays = [
       (final: prev: {
-        swayimg = prev.swayimg.overrideAttrs (prev: {
+        swayimg = prev.swayimg.overrideAttrs (prev: rec {
           version = "2.5";
           src = pkgs.fetchFromGitHub {
             owner = "artemsen";
             repo = "swayimg";
-            rev = "v2.5";
+            rev = "v${version}";
             hash = "sha256-wr0XNcWHcmxj8CW6faq4876q8ADRpQuX5PCVX1l3IZ8=";
           };
           patches = [./patches/swayimg.patch];
