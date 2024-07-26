@@ -2,6 +2,7 @@
   config,
   pkgs,
   userSettings,
+  self,
   ...
 }: let
   yomichad = pkgs.python3Packages.buildPythonPackage {
@@ -216,7 +217,7 @@ in {
         url = "https://raw.githubusercontent.com/insin/control-panel-for-twitter/master/script.js";
         hash = "sha256-pISk/Fhix1PHjxdyEh9fU8j7AyAGccYBsUMYfrapEBQ=";
         postFetch = ''
-		  patch -Np1 $out ${userSettings.flake-path}/home-manager/patches/control-panel-for-twitter.patch
+          patch -Np1 $out ${self}/home-manager/patches/control-panel-for-twitter.patch
         '';
       };
       disable-youtube-video-ads = pkgs.fetchurl {
