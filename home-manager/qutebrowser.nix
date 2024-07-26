@@ -135,7 +135,6 @@ in {
     settings = {
       fonts = {
         default_family = [userSettings.jpFont userSettings.emojiFont];
-        prompts = userSettings.jpFont;
         default_size = "10pt";
       };
       content = {

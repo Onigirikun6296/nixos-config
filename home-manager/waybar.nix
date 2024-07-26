@@ -104,11 +104,13 @@
       };
     };
 
-    style = ''
+    style = let
+      jpFont = "${builtins.replaceStrings ["[GNU ]"] [""] userSettings.jpFont}";
+    in ''
 
       * {
         border: none;
-        font-family: "${userSettings.mainFont}", "${userSettings.jpFont}";
+        font-family: "${userSettings.mainFont}", ${jpFont};
         font-size: 14px;
       }
 
@@ -122,7 +124,7 @@
       }
 
       #mpd {
-        font-family: "${userSettings.mainFont}", "${userSettings.jpFont}", "${userSettings.nerdFont}";
+        font-family: "${userSettings.mainFont}", "${jpFont}", "${userSettings.nerdFont}";
       }
 
       #workspaces button {
