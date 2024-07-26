@@ -1,0 +1,33 @@
+--- a/script.js	2024-07-26 19:21:45.992239800 +0300
++++ b/script.js	2024-07-26 19:41:25.790788209 +0300
+@@ -54,12 +54,12 @@
+   hideBlueReplyFollowedBy: false,
+   hideBlueReplyFollowing: false,
+   hideBookmarkButton: false,
+-  hideBookmarkMetrics: true,
++  hideBookmarkMetrics: false,
+   hideBookmarksNav: false,
+   hideCommunitiesNav: false,
+   hideExplorePageContents: true,
+   hideFollowingMetrics: true,
+-  hideForYouTimeline: true,
++  hideForYouTimeline: false,
+   hideGrokNav: true,
+   hideInlinePrompts: true,
+   hideJobsNav: true,
+@@ -82,7 +82,7 @@
+   hideTwitterBlueUpsells: true,
+   hideUnavailableQuoteTweets: true,
+   hideVerifiedNotificationsTab: true,
+-  hideViews: true,
++  hideViews: false,
+   hideWhoToFollowEtc: true,
+   listRetweets: 'ignore',
+   mutableQuoteTweets: true,
+@@ -5549,4 +5549,4 @@
+ main()
+ //#endregion
+ 
+-}()
+\ No newline at end of file
++}()
