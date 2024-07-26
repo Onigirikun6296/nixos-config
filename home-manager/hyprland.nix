@@ -235,6 +235,7 @@ in {
           " $mod,u,exec,pypr show unicode"
           " $mod,a,exec,pypr toggle agenda"
           " $mod, P, exec, bemenu-run --fn \"${userSettings.mainFont} 14\" -H 24"
+          " $mod, R, exec, rofi -show-icons -show drun"
           " $mod, left, movefocus, l"
           " $mod, right, movefocus, r"
           " $mod, up, movefocus, u"
