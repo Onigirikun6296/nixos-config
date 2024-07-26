@@ -40,7 +40,7 @@
       term = "${pkgs.foot}/bin/foot";
       file-manager = "${pkgs.kdePackages.dolphin}/bin/dolphin";
       shell = "${pkgs.fish}/bin/fish";
-	  flake-path = "${self}";
+      flake-path = "${self}";
     };
   in {
     formatter.${system} = pkgs.alejandra;
