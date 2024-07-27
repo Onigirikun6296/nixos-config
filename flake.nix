@@ -33,7 +33,7 @@
       email = "oni@onigiribentou.com";
 
       mainFont = "Ttyp0";
-      jpFont = "Unifont [GNU ]";
+      jpFont = "Unifont";
       nerdFont = "Hack Nerd Font";
       emojiFont = "Noto Color Emoji";
 

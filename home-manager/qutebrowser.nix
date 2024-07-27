@@ -134,7 +134,7 @@ in {
 
     settings = {
       fonts = {
-        default_family = [userSettings.jpFont userSettings.emojiFont];
+        default_family = [(userSettings.jpFont + "[GNU ]") userSettings.emojiFont];
         default_size = "10pt";
       };
       content = {

@@ -10,9 +10,7 @@
   lock_wallpaper = "${userSettings.homeDirectory}/Pictures/Wallpapers/1716425059533734.jpg";
 in {
   programs = {
-    hyprlock = let
-      jpFont = builtins.replaceStrings ["[GNU ]"] [""] "${userSettings.jpFont}";
-    in {
+    hyprlock = {
       enable = true;
       settings = {
         general = {
@@ -76,7 +74,7 @@ in {
             text = "お帰り、$USERくん";
             color = "rgba(250, 250, 250, 1.0)";
             font_size = 12;
-            font_family = jpFont;
+            font_family = userSettings.jpFont;
             rotate = 0;
             position = "0, -24";
             halign = "center";
@@ -86,7 +84,7 @@ in {
             text = "cmd[update:1000] echo \"$(date +\"%a %b %d %r %Y\")\"";
             color = "rgba(250, 250, 250, 1.0)";
             font_size = 12;
-            font_family = jpFont;
+            font_family = userSettings.jpFont;
             position = "0, 10";
             halign = "center";
             valign = "borrom";
@@ -95,7 +93,7 @@ in {
             text = ''cmd[update:1000] echo "$(if [  -n "$(${pkgs.mpc-cli}/bin/mpc  2>/dev/null)" ]; then echo "🎧 Now playing: $(${pkgs.mpc-cli}/bin/mpc | head -n 1)"; fi)"'';
             color = "rgba(250, 250, 250, 1.0)";
             font_size = 12;
-            font_family = jpFont;
+            font_family = userSettings.jpFont;
             position = "0, 40";
             halign = "center";
             valign = "borrom";

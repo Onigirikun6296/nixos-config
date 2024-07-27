@@ -535,7 +535,7 @@
       enable = true;
       settings = {
         main = {
-          font = "${userSettings.mainFont}:size=12,${builtins.replaceStrings ["[GNU ]"] [""] userSettings.jpFont}:size=12,NotoColorEmoji:size=11,${userSettings.nerdFont}:size=9";
+          font = "${userSettings.mainFont}:size=12,${userSettings.jpFont}:size=12,NotoColorEmoji:size=11,${userSettings.nerdFont}:size=9";
           pad = "0x5";
           notify = "notify-send -a \${app-id} -i \${app-id} \${title} \${body}";
           notify-focus-inhibit = "yes";
