@@ -29,6 +29,19 @@ in {
 
     '';
   };
+  systemd.user.services = {
+    offlineimap = {
+      Unit.Description = "Offlineimap Service";
+
+      Service = {
+        ExecStart = "${pkgs.offlineimap}/bin/offlineimap -u basic";
+        Restart = "on-failure";
+        RestartSec = 60;
+      };
+      Install.WantedBy = ["default.target"];
+    };
+  };
+
   accounts.email.accounts = {
     "${primary.name}" = {
       primary = true;
