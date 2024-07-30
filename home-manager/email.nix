@@ -16,25 +16,30 @@
 in {
   programs.offlineimap = {
     enable = true;
-    pythonFile = ''
-      #!/usr/bin/env python2
-      from subprocess import check_output
+    pythonFile =
+      /*
+      python
+      */
+      ''
+        #!/usr/bin/env python2
+        from subprocess import check_output
 
-      def get_pass(account):
-          return check_output("pass " + account, shell = True).splitlines()[0]
+        def get_pass(account):
+            return check_output("${pkgs.pass}/bin/pass " + account, shell = True).splitlines()[0]
 
 
-      if __name__ == "__main__":
-          print(get_pass())
+        if __name__ == "__main__":
+            print(get_pass())
 
-    '';
+      '';
   };
+
   systemd.user.services = {
-    offlineimap = {
+    "offlineimap@${primary.name}" = {
       Unit.Description = "Offlineimap Service";
 
       Service = {
-        ExecStart = "${pkgs.offlineimap}/bin/offlineimap -u basic";
+        ExecStart = "${pkgs.offlineimap}/bin/offlineimap -u basic -a ${primary.name}";
         Restart = "on-failure";
         RestartSec = 60;
       };
@@ -50,6 +55,7 @@ in {
       offlineimap = {
         enable = true;
         extraConfig = {
+          account.autorefresh = "1.0";
           local = {
             type = "Maildir";
             localfolders = "~/Storage/.mail/${primary.name}/";
@@ -58,7 +64,6 @@ in {
           };
 
           remote = {
-            maxconnections = "1";
             type = "Gmail";
             remoteuser = "${primary.address}";
             remotepasseval = ''get_pass("gmail_app_pass")'';
