@@ -3,8 +3,14 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -67,6 +73,23 @@
         specialArgs = {
           inherit systemSettings;
           inherit userSettings;
+        };
+      };
+      Orion = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./system/configuration.nix
+          ./system/printer.nix
+          ./system/bluetooth.nix
+          ./system/steam.nix
+          {
+            imports = [self.inputs.disko.nixosModules.disko ./disk-config.nix];
+          }
+        ];
+        specialArgs = {
+          inherit systemSettings;
+          inherit userSettings;
+          inherit self;
         };
       };
     };
