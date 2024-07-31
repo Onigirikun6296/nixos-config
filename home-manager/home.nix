@@ -3,6 +3,7 @@
   pkgs,
   userSettings,
   lib,
+  self,
   ...
 }: {
   imports = [
@@ -145,21 +146,22 @@
           require("session"):setup {
           	sync_yanked = true,
           }
-
-          function Status:name()
-          	local h = cx.active.current.hovered
-          	if not h then
-          		return ui.Span("")
-          	end
-
-          	local linked = ""
-          	if h.link_to ~= nil then
-          		linked = " -> " .. tostring(h.link_to)
-          	end
-          	return ui.Span(" " .. h.name .. linked)
-          end
-
-        '';
+        ''
+        + builtins.readFile (pkgs.fetchurl {
+          url = "https://raw.githubusercontent.com/sxyazi/yazi/latest/yazi-plugin/preset/components/status.lua";
+          hash = "sha256-FI9RBdlt5I5Pzh32UvunIRV0sWNGIXkjGrhDmYR9pLg=";
+          postFetch = ''
+            patch -p1 -F 3 $out ${self}/home-manager/patches/yazi-status-symlink.patch
+            patch -p1 -F 3 $out ${self}/home-manager/patches/yazi-user-group-files.patch
+          '';
+        })
+        + builtins.readFile (pkgs.fetchurl {
+          url = "https://raw.githubusercontent.com/sxyazi/yazi/latest/yazi-plugin/preset/components/header.lua";
+          hash = "sha256-S9q+aNC3uXkW/V8H9rmNpQLDVmFYQUrV1+jdPWm/+2w=";
+          postFetch = ''
+            patch -p1 -F 3 $out ${self}/home-manager/patches/yazi-username-hostname-header.patch
+          '';
+        });
       keymap = {
         manager = {
           prepend_keymap =
@@ -180,6 +182,11 @@
                 run = "tasks_show";
                 desc = "Show the tasks manager";
                 on = ["t"];
+              }
+              {
+                run = "close";
+                desc = "Cancel input";
+                on = ["<Esc>"];
               }
               {
                 run = "plugin --sync smart-enter";
