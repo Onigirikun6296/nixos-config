@@ -12,6 +12,6 @@
   virtualisation.virtualbox.guest = {
     enable = true;
     clipboard = true;
-    draganddrop = true;
+    dragAndDrop = true;
   };
 }
