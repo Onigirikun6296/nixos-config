@@ -286,6 +286,7 @@
       in {
         hide-preview = "${plugin-src}/hide-preview.yazi";
         full-border = "${plugin-src}/full-border.yazi";
+        jump-to-char = "${plugin-src}/jump-to-char.yazi";
         smart-enter = "${smart-enter}/smart-enter.yazi";
         relative-motions = pkgs.fetchgit {
           url = "https://github.com/dedukun/relative-motions.yazi";
