@@ -1,11 +1,11 @@
 @@ -42,7 +42,11 @@ function Status:name()
- 		return ui.Span("")
+ 		return ui.Line("")
  	end
 
--	return ui.Span(" " .. h.name)
+-	return ui.Line(" " .. h.name)
 +	local linked = ""
 +	if h.link_to ~= nil then
 +		linked = " -> " .. tostring(h.link_to)
 +	end
-+	return ui.Span(" " .. h.name .. linked)
++	return ui.Line(" " .. h.name .. linked)
  end
