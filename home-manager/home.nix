@@ -40,13 +40,13 @@
 
     overlays = [
       (final: prev: {
-        swayimg = prev.swayimg.overrideAttrs (prev: rec {
+        swayimg = prev.swayimg.overrideAttrs (prev: {
           version = "2.5";
           src = pkgs.fetchFromGitHub {
             owner = "artemsen";
             repo = "swayimg";
-            rev = "v${version}";
-            hash = "sha256-wr0XNcWHcmxj8CW6faq4876q8ADRpQuX5PCVX1l3IZ8=";
+            rev = "08fe962eeb0bfffc57e8984bf98c20ec812185cc";
+            hash = "sha256-8gzUtGFk6uWYAImGIiz2ZsNuHUsSZ2KtI+aW9A1lLkU=";
           };
           patches = [./patches/swayimg.patch];
         });
@@ -893,17 +893,20 @@
 
     ".config/swayimg/config".text = lib.generators.toINI {} {
       general = {
-        scale = "optimal";
-        fullscreen = "no";
-        antialiasing = "no";
-        fixed = "yes";
-        transparency = "#00000000";
+        mode = "viewer";
         position = "parent";
         size = "parent";
-        background = "#00000000";
+      };
+      viewer = {
+        window = "#00000000";
+        transparency = "#00000000";
+        scale = "optimal";
+        antialiasing = "no";
+        fixed = "yes";
         slideshow = "no";
         slideshow_time = 3;
-        gallery = "no";
+        history = 1;
+        preload = 1;
       };
       gallery = {
         size = 150;
@@ -917,8 +920,6 @@
         loop = "yes";
         recursive = "no";
         all = "yes";
-        cache = 1;
-        preload = 1;
       };
       font = {
         name = "${userSettings.jpFont}";
@@ -927,18 +928,23 @@
         shadow = "#000000a0";
       };
       info = {
-        mode = "brief";
-        timeout = 0;
-        "full.topleft" = "name,format,filesize,imagesize,exif";
-        "full.topright" = "index";
-        "full.bottomleft" = "scale,frame";
-        "full.bottomright" = "status";
-        "brief.topleft" = "index";
-        "brief.topright" = "none";
-        "brief.bottomleft" = "none";
-        "brief.bottomright" = "status";
+        show = "yes";
+        info_timeout = 5;
+        status_timeout = 3;
       };
-      keys = {
+      "info.viewer" = {
+        top_left = "name,format,filesize,imagesize,exif";
+        top_right = "index";
+        bottom_left = "scale,frame";
+        bottom_right = "status";
+      };
+      "info.gallery" = {
+        top_left = "none";
+        top_right = "none";
+        bottom_left = "none";
+        bottom_right = "name,status";
+      };
+      "keys.viewer" = {
         F1 = "help";
         Home = "first_file";
         End = "last_file";
@@ -981,8 +987,6 @@
         e = "exec echo \"Image: %\"";
         Escape = "exit";
         q = "exit";
-      };
-      mouse = {
         ScrollLeft = "step_right 5";
         ScrollRight = "step_left 5";
         ScrollUp = "step_up 5";
@@ -993,6 +997,27 @@
         "Shift+ScrollDown" = "next_file";
         "Alt+ScrollUp" = "prev_frame";
         "Alt+ScrollDown" = "next_frame";
+      };
+      "keys.gallery" = {
+        Home = "first_file";
+        End = "last_file";
+        p = "prev_file";
+        n = "next_file";
+        Space = "next_file";
+        Left = "step_left";
+        Right = "step_right";
+        Up = "step_up";
+        Down = "step_down";
+        h = "step_left";
+        l = "step_right";
+        k = "step_up";
+        j = "step_down";
+        a = "antialiasing";
+        r = "reload";
+        i = "info";
+        e = "exec echo \"Image: %\"";
+        Escape = "exit";
+        q = "exit";
       };
     };
 
