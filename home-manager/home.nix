@@ -157,29 +157,46 @@
     yazi = {
       enable = true;
       initLua =
+        ""
+        +
         /*
         lua
         */
         ''
-          require("full-border"):setup()
+          require("full-border"):setup({
+          	type = ui.Border.PLAIN,
+          })
           require("relative-motions"):setup({ show_numbers = "relative", show_motion = true })
           require("session"):setup {
           	sync_yanked = true,
           }
+
+          Status:children_add(function()
+          	local h = cx.active.current.hovered
+          	if h == nil or ya.target_family() ~= "unix" then
+          		return ui.Line {}
+          	end
+
+          	return ui.Line {
+          		ui.Span(ya.user_name(h.cha.uid) or tostring(h.cha.uid)):fg("magenta"),
+          		ui.Span(":"),
+          		ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg("magenta"),
+          		ui.Span(" "),
+          	}
+          end, 500, Status.RIGHT)
+
+          Header:children_add(function()
+          	if ya.target_family() ~= "unix" then
+          		return ui.Line {}
+          	end
+          	return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("blue")
+          end, 500, Header.LEFT)
         ''
         + builtins.readFile (pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/sxyazi/yazi/latest/yazi-plugin/preset/components/status.lua";
-          hash = "sha256-FI9RBdlt5I5Pzh32UvunIRV0sWNGIXkjGrhDmYR9pLg=";
+          url = "https://raw.githubusercontent.com/sxyazi/yazi/shipped/yazi-plugin/preset/components/status.lua";
+          hash = "sha256-JeM+Ij6L6Ej/D5ExKPo4W/b6TaJmD8xZjoFxinb15A4=";
           postFetch = ''
-            patch -p1 -F 3 $out ${self}/home-manager/patches/yazi-status-symlink.patch
-            patch -p1 -F 3 $out ${self}/home-manager/patches/yazi-user-group-files.patch
-          '';
-        })
-        + builtins.readFile (pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/sxyazi/yazi/latest/yazi-plugin/preset/components/header.lua";
-          hash = "sha256-S9q+aNC3uXkW/V8H9rmNpQLDVmFYQUrV1+jdPWm/+2w=";
-          postFetch = ''
-            patch -p1 -F 3 $out ${self}/home-manager/patches/yazi-username-hostname-header.patch
+            patch -Np1 -F 3 $out ${self}/home-manager/patches/yazi-status-symlink.patch
           '';
         });
       keymap = {
@@ -207,6 +224,15 @@
                 run = "close";
                 desc = "Cancel input";
                 on = ["<Esc>"];
+              }
+              {
+                run = "plugin jump-to-char";
+                desc = "Jump to char";
+                on = ["f"];
+              }
+              {
+                run = "filter";
+                on = ["F"];
               }
               {
                 run = "plugin --sync smart-enter";
@@ -242,7 +268,7 @@
       plugins = let
         plugin-src = pkgs.fetchgit {
           url = "https://github.com/yazi-rs/plugins/";
-          hash = "sha256-iiHkU5DYfDkcBA/XTzTYBuHbdM58iZQt8lEMzagnwcM=";
+          hash = "sha256-jg8+GDsHOSIh8QPYxCvMde1c1D9M78El0PljSerkLQc=";
         };
         smart-enter =
           pkgs.writeTextDir "smart-enter.yazi/init.lua"
@@ -260,11 +286,11 @@
       in {
         hide-preview = "${plugin-src}/hide-preview.yazi";
         full-border = "${plugin-src}/full-border.yazi";
+        smart-enter = "${smart-enter}/smart-enter.yazi";
         relative-motions = pkgs.fetchgit {
           url = "https://github.com/dedukun/relative-motions.yazi";
-          hash = "sha256-S1kdCFPMs1xpjTSBfU49hucPjgtP7J+WcgTH8hijYNU=";
+          hash = "sha256-jahJC6LXOnr974+zHEH9gqI+J1C68O+PvjSt8pelkP0=";
         };
-        smart-enter = "${smart-enter}/smart-enter.yazi";
       };
       settings = {
         manager = {
