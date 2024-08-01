@@ -51,6 +51,26 @@
           patches = [./patches/swayimg.patch];
         });
       })
+      (final: prev: {
+        yazi-unwrapped = prev.yazi-unwrapped.overrideAttrs (prev: rec {
+          version = "0.3.0";
+          src = pkgs.fetchFromGitHub {
+            owner = "sxyazi";
+            repo = "yazi";
+            rev = "v${version}";
+            hash = "sha256-vK8P+6hn7NiympkQE8Bp45ZPqTO24VTSu0QwnXHfdXw=";
+          };
+          cargoDeps = pkgs.rustPlatform.importCargoLock {
+            lockFile = pkgs.fetchurl {
+              url = "https://raw.githubusercontent.com/sxyazi/yazi/main/Cargo.lock";
+              hash = "sha256-O40Y5xUBbw9OQZFlzp8w7uWe0RmczBi9ajY+4yHahQU=";
+            };
+            outputHashes = {
+              "notify-6.1.1" = "sha256-5Ft2yvRPi2EaErcGBkF/3Xv6K7ijFGbdjmSqI4go/h4=";
+            };
+          };
+        });
+      })
     ];
   };
 
