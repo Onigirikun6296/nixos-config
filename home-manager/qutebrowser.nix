@@ -198,7 +198,7 @@ in {
     greasemonkey = let
       sponsorblock = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/afreakk/greasemonkeyscripts/master/youtube_sponsorblock.js";
-        hash = "sha256-4piHtjbCDo2oBzUOlmdQpEgUqA3TEefzacGeqL0Pwk8=";
+        hash = "sha256-nwNade1oHP+w5LGUPJSgAX1+nQZli4Rhe8FFUoF5mLE=";
       };
       youtube-age-bypass = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/master/dist/Simple-YouTube-Age-Restriction-Bypass.user.js";
@@ -221,7 +221,7 @@ in {
       };
       disable-youtube-video-ads = pkgs.fetchurl {
         url = "https://update.greasyfork.org/scripts/32626/Disable%20YouTube%20Video%20Ads.user.js";
-        hash = "sha256-/3j+aGeZ5cFuN3+1mMTquBB22702z9eX3ck6zB6kPt4=";
+        hash = "sha256-bP0S8dRaDi7ZY6sT5MP/YutMhIcaB07vAySc9cIV2gM=";
       };
     in [
       sponsorblock
