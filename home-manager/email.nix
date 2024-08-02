@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  userSettings,
-  ...
-}: let
+{pkgs, ...}: let
   primary = {
     name = "gmail";
     address = "<enter-gmail-here>@gmail.com";

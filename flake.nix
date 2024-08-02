@@ -7,15 +7,20 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
+    disko,
     home-manager,
     ...
   }: let
-    lib = nixpkgs.lib;
+    inherit (nixpkgs) lib;
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
@@ -49,7 +54,10 @@
       Pegasus = lib.nixosSystem {
         inherit system;
         modules = [
+          disko.nixosModules.disko
+          ./disk-config.nix
           ./system/configuration.nix
+          ./system/hardware-configuration.nix
           ./system/virtualbox.nix
         ];
         specialArgs = {
@@ -61,6 +69,7 @@
         inherit system;
         modules = [
           ./system/configuration.nix
+          ./system/hardware-configuration.nix
           ./system/filesystems.nix
           ./system/printer.nix
           ./system/bluetooth.nix

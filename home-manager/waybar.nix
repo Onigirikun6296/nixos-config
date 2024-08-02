@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  userSettings,
-  ...
-}: {
+{userSettings, ...}: {
   programs.waybar = {
     enable = true;
     settings = {

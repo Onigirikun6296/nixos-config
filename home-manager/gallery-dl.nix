@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  userSettings,
-  ...
-}: let
+_: let
   twitter = {
     username = "<twitter-username>";
     password = "<twitter-password>";
@@ -17,8 +12,8 @@ in {
     settings = {
       extractor = {
         twitter = {
-          username = twitter.username;
-          password = twitter.password;
+          inherit (twitter) username;
+          inherit (twitter) password;
           retweets = true;
           directory = {
             retweet_id = ["{category}" "{user[name]}" "Retweets" "{author[name]}"];
@@ -29,7 +24,7 @@ in {
         pixiv = {
           filename = "{id}{num}.{extension}";
           directory = ["Pixiv" "Works" "{user[id]}"];
-          refresh-token = pixiv.refresh-token;
+          inherit (pixiv) refresh-token;
           ugoira = true;
           postprocessors = ["ugoira-copy"];
           favorite = {

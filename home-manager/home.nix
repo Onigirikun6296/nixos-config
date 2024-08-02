@@ -15,8 +15,8 @@
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home = {
-    username = userSettings.username;
-    homeDirectory = userSettings.homeDirectory;
+    inherit (userSettings) username;
+    inherit (userSettings) homeDirectory;
   };
 
   # This value determines the Home Manager release that your configuration is
@@ -39,8 +39,8 @@
     };
 
     overlays = [
-      (final: prev: {
-        swayimg = prev.swayimg.overrideAttrs (prev: {
+      (_final: prev: {
+        swayimg = prev.swayimg.overrideAttrs (_prev: {
           version = "2.5";
           src = pkgs.fetchFromGitHub {
             owner = "artemsen";
@@ -51,8 +51,8 @@
           patches = [./patches/swayimg.patch];
         });
       })
-      (final: prev: {
-        yazi-unwrapped = prev.yazi-unwrapped.overrideAttrs (prev: rec {
+      (_final: prev: {
+        yazi-unwrapped = prev.yazi-unwrapped.overrideAttrs (_prev: rec {
           version = "0.3.0";
           src = pkgs.fetchFromGitHub {
             owner = "sxyazi";
@@ -500,15 +500,15 @@
       plugins = with pkgs.fishPlugins; [
         {
           name = "fzf-fish";
-          src = fzf-fish.src;
+          inherit (fzf-fish) src;
         }
         {
           name = "pisces";
-          src = pisces.src;
+          inherit (pisces) src;
         }
         {
           name = "colored-man-pages";
-          src = colored-man-pages.src;
+          inherit (colored-man-pages) src;
         }
       ];
     };
@@ -518,7 +518,7 @@
       keyMode = "vi";
       mouse = true;
       escapeTime = 10;
-      shell = userSettings.shell;
+      inherit (userSettings) shell;
       extraConfig = let
         despell = pkgs.rustPlatform.buildRustPackage {
           pname = "despell";
