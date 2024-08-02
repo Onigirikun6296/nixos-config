@@ -90,6 +90,7 @@
   };
 in {
   home.file.".config/qutebrowser/userscripts/yomichad".source = "${yomichad}/bin/yomichad";
+
   programs.qutebrowser = {
     enable = true;
     loadAutoconfig = true;
@@ -199,10 +200,6 @@ in {
         url = "https://raw.githubusercontent.com/afreakk/greasemonkeyscripts/master/youtube_sponsorblock.js";
         hash = "sha256-nwNade1oHP+w5LGUPJSgAX1+nQZli4Rhe8FFUoF5mLE=";
       };
-      youtube-age-bypass = pkgs.fetchurl {
-        url = "https://raw.githubusercontent.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/master/dist/Simple-YouTube-Age-Restriction-Bypass.user.js";
-        hash = "sha256-GxKKoB37xJOHnpTPhhp+xsIT6hebFkciJjvaMBbDFPk=";
-      };
       _4chan-sounds-player = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/rcc11/4chan-sounds-player/master/dist/4chan-sounds-player.user.js";
         hash = "sha256-o89sRpLYiMbNCc3oIr4qD6QHEZVaughwxsks20cPlJY=";
@@ -218,16 +215,10 @@ in {
           patch -Np1 $out ${self}/home-manager/patches/control-panel-for-twitter.patch
         '';
       };
-      disable-youtube-video-ads = pkgs.fetchurl {
-        url = "https://update.greasyfork.org/scripts/32626/Disable%20YouTube%20Video%20Ads.user.js";
-        hash = "sha256-bP0S8dRaDi7ZY6sT5MP/YutMhIcaB07vAySc9cIV2gM=";
-      };
     in [
       sponsorblock
-      youtube-age-bypass
       _4chan-sounds-player
       _4chanX
-      disable-youtube-video-ads
       control-panel-for-twitter
     ];
   };
