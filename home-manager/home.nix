@@ -981,6 +981,7 @@
         "Shift+greater" = "rotate_right";
         m = "flip_vertical";
         "Shift+m" = "flip_horizontal";
+        "Shift+bar" = "flip_horizontal";
         a = "antialiasing";
         r = "reload";
         i = "info";
