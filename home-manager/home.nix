@@ -572,8 +572,9 @@
           set -g status-style bg=default
 
           set -g status-left ' #S '
+          set -g window-status-format " #I:#(${despell}/bin/despell #W) #W "
           set -g window-status-current-format "#[fg=#3b383e, bg=#a9dc76, bold] #I #[fg=#a9dc76,bg=#3b383e, bold] #(${despell}/bin/despell #W) #W "
-          set -g status-right "#[fg=#3b383e, bg=#a9dc76, bold]  #[fg=#a9dc76,bg=#3b383e, bold] #(fish -c 'prompt_pwd $(tmux display-message -p '#{pane_current_path}')')  #[default] "
+          set -g status-right "#[fg=#3b383e, bg=#a9dc76, bold]  #[fg=#a9dc76,bg=#3b383e, bold] #(echo $(fish -c 'prompt_pwd $(tmux display-message -p \"#{pane_current_path}\")'))  #[default] "
 
           bind [ copy-mode
           bind Escape copy-mode
@@ -716,6 +717,7 @@
         screenshot-directory = "~/Pictures/Screenshots/mpv";
         screenshot-template = "%f_%P";
         screenshot-format = "jpg";
+        ytdl-format = "ytdl-format=bestvideo[height<=?720]+bestaudio/best";
       };
       bindings = {
         r = "no-osd cycle video-rotate 90";
