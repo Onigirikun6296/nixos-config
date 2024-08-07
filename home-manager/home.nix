@@ -867,7 +867,31 @@
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
-  home.file = {
+  home.file = let
+    sniprun-bin = pkgs.rustPlatform.buildRustPackage rec {
+      pname = "sniprun-bin";
+      version = "1.3.13";
+      src = pkgs.fetchFromGitHub {
+        owner = "michaelb";
+        repo = "sniprun";
+        rev = "refs/tags/v${version}";
+        hash = "sha256-PQ3nAZ+bMbHHJWD7cV6h1b3g3TzrakA/N8vVumIooMg=";
+      };
+
+      cargoHash = "sha256-I8R2V9zoLqiM4lu0D7URoVof68wtKHI+8T8fVrUg7i4=";
+
+      nativeBuildInputs = [pkgs.makeWrapper];
+
+      postInstall = ''
+        wrapProgram $out/bin/sniprun \
+          --prefix PATH ${lib.makeBinPath [pkgs.bashInteractive pkgs.coreutils pkgs.curl pkgs.gnugrep pkgs.gnused pkgs.procps]}
+      '';
+
+      doCheck = false;
+    };
+  in {
+    ".local/share/nvim/lazy/sniprun/target/release/sniprun".source = "${sniprun-bin}/bin/sniprun";
+
     ".gnupg/gpg-agent.conf".text = ''
       pinentry-program ${pkgs.pinentry-qt}/bin/pinentry-qt
 
