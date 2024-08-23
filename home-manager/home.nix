@@ -697,7 +697,6 @@
         screenshot-directory = "~/Pictures/Screenshots/mpv";
         screenshot-template = "%f_%P";
         screenshot-format = "jpg";
-        ytdl-format = "ytdl-format=bestvideo[height<=?720]+bestaudio/best";
       };
       bindings = {
         r = "no-osd cycle video-rotate 90";
