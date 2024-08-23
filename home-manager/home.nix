@@ -111,10 +111,12 @@
       pinentry-qt
       vesktop
       swayimg
+      qt6ct
     ]
     ++ (with kdePackages; [
       dolphin
       oxygen-icons
+      breeze-icons
       ocean-sound-theme
       oxygen-sounds
       ffmpegthumbs
@@ -864,6 +866,26 @@
     };
   };
 
+  xdg.portal = {
+    enable = true;
+    config = {
+      hyprland = {
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.FileChooser" = [
+          "kde"
+        ];
+      };
+
+    };
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      kdePackages.xdg-desktop-portal-kde
+    ];
+  };
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = let
@@ -1062,6 +1084,7 @@
     EDITOR = "${pkgs.neovim}/bin/nvim";
     SHELL = userSettings.shell;
     TERMINAL = "${userSettings.term}";
+    QT_QPA_PLATFORMTHEME = "qt6ct";
   };
 
   systemd.user.services = {

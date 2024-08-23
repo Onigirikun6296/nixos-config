@@ -127,11 +127,6 @@
     portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [xdg-desktop-portal-gtk];
-  };
-
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk
