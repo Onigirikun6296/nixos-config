@@ -126,7 +126,7 @@ in {
         "zl" = "spawn --userscript qute-pass";
         "<Ctrl+Shift+T>" = "spawn --userscript translate";
         "<Ctrl+T>" = "spawn --userscript translate --text";
-        "xt" = "config-cycle tabs.show.multiple switching";
+        "xt" = "config-cycle tabs.show multiple switching";
         "gs" = "spawn --userscript yomichad --names";
         "gS" = "spawn --userscript yomichad --prefix-search";
       };
@@ -150,6 +150,7 @@ in {
         pdfjs = true;
       };
       tabs.show = "multiple";
+      tabs.title.format = "{audio}{relative_index}: {current_title}";
       auto_save.session = true;
       spellcheck.languages = ["en-GB" "el-GR"];
       scrolling.smooth = true;
