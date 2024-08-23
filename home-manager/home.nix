@@ -173,7 +173,7 @@
         ''
         + builtins.readFile (pkgs.fetchurl {
           url = "https://raw.githubusercontent.com/sxyazi/yazi/shipped/yazi-plugin/preset/components/status.lua";
-          hash = "sha256-JeM+Ij6L6Ej/D5ExKPo4W/b6TaJmD8xZjoFxinb15A4=";
+          hash = "sha256-tATzfKy1ks4AIGcpnwa/oTYowdxVlPaJcRK1BP9PYdc=";
           postFetch = ''
             patch -Np1 -F 3 $out ${self}/home-manager/patches/yazi-status-symlink.patch
           '';
