@@ -40,15 +40,14 @@
 
     overlays = [
       (_final: prev: {
-        swayimg = prev.swayimg.overrideAttrs (_prev: {
-          version = "2.5";
+        swayimg = prev.swayimg.overrideAttrs (_prev: rec {
+          version = "3.2";
           src = pkgs.fetchFromGitHub {
             owner = "artemsen";
             repo = "swayimg";
-            rev = "08fe962eeb0bfffc57e8984bf98c20ec812185cc";
-            hash = "sha256-8gzUtGFk6uWYAImGIiz2ZsNuHUsSZ2KtI+aW9A1lLkU=";
+            rev = "v${version}";
+            hash = "sha256-Eqs8U2BpjcweDi4oGS9nWpoyoXeuiD+6jviPA3s9/YY=";
           };
-          patches = [./patches/swayimg.patch];
         });
       })
     ];
@@ -856,6 +855,7 @@
       "application/pdf" = ["org.pwmt.zathura.desktop"];
       "application/vnd.microsoft.portable-executable" = ["wine.desktop"];
       "image/png" = ["swayimg.desktop"];
+      "image/bmp" = ["swayimg.desktop"];
       "image/jpg" = ["swayimg.desktop"];
       "image/jpeg" = ["swayimg.desktop"];
       "image/webp" = ["swayimg.desktop"];
@@ -901,6 +901,7 @@
         mode = "viewer";
         position = "parent";
         size = "parent";
+        app_id = "swayimg";
       };
       viewer = {
         window = "#00000000";
@@ -914,7 +915,9 @@
         preload = 1;
       };
       gallery = {
-        size = 150;
+        size = 120;
+        cache = 100;
+        fill = "yes";
         antialiasing = "no";
         window = "#00000000";
         background = "#202020";
