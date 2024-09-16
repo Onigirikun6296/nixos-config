@@ -117,7 +117,6 @@
       pinentry-qt
       vesktop
       swayimg
-      qt6ct
     ]
     ++ (with kdePackages; [
       dolphin
@@ -130,6 +129,7 @@
       kimageformats
       kservice
       knotifications
+      qt6ct
     ]);
 
   i18n.inputMethod = {
@@ -857,39 +857,65 @@
     };
   };
 
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "application/pdf" = ["org.pwmt.zathura.desktop"];
-      "application/vnd.microsoft.portable-executable" = ["wine.desktop"];
-      "image/png" = ["swayimg.desktop"];
-      "image/bmp" = ["swayimg.desktop"];
-      "image/jpg" = ["swayimg.desktop"];
-      "image/jpeg" = ["swayimg.desktop"];
-      "image/webp" = ["swayimg.desktop"];
-      "image/gif" = ["swayimg.desktop"];
-      "video/*" = ["mpv.desktop"];
-    };
-  };
-
-  xdg.portal = {
-    enable = true;
-    config = {
-      hyprland = {
-        default = [
-          "hyprland"
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.FileChooser" = [
-          "kde"
-        ];
+  xdg = {
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = ["org.pwmt.zathura.desktop"];
+        "application/vnd.microsoft.portable-executable" = ["wine.desktop"];
+        "image/png" = ["swayimg.desktop"];
+        "image/bmp" = ["swayimg.desktop"];
+        "image/jpg" = ["swayimg.desktop"];
+        "image/jpeg" = ["swayimg.desktop"];
+        "image/webp" = ["swayimg.desktop"];
+        "image/gif" = ["swayimg.desktop"];
+        "video/*" = ["mpv.desktop"];
       };
-
     };
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      kdePackages.xdg-desktop-portal-kde
-    ];
+
+    portal = {
+      enable = true;
+      config = {
+        hyprland = {
+          default = [
+            "hyprland"
+            "kde"
+          ];
+          "org.freedesktop.impl.portal.FileChooser" = [
+            "kde"
+          ];
+        };
+      };
+      extraPortals = with pkgs; [
+        kdePackages.xdg-desktop-portal-kde
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
+      ];
+    };
+
+    desktopEntries = {
+      "org.qutebrowser.qutebrowser" = {
+        name = "qutebrowser";
+        genericName = "Web Browser";
+        icon = "qutebrowser";
+        exec = "env QT_QPA_PLATFORMTHEME=qt6ct ${pkgs.qutebrowser}/bin/qutebrowser --untrusted-args %u";
+        terminal = false;
+        categories = ["Network" "WebBrowser"];
+        mimeType = ["text/html" "text/xml" "application/xhtml+xml" "application/xml" "application/rdf+xml" "image/gif" "image/jpeg" "image/png" "x-scheme-handler/http" "x-scheme-handler/https" "x-scheme-handler/qute"];
+      };
+      hydrus-client = {
+        name = "Hydrus Client";
+        exec = "env QT_QPA_PLATFORMTHEME=qt6ct ${pkgs.hydrus}/bin/hydrus-client";
+        icon = "hydrus-client";
+        terminal = false;
+      };
+      pavucontrol-qt = {
+        exec = "env QT_QPA_PLATFORMTHEME=qt6ct pavucontrol-qt";
+        name = "PulseAudio Volume Control";
+        genericName = "Adjust volume levels and select audio devices";
+        icon = "multimedia-volume-control";
+      };
+    };
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -1090,7 +1116,6 @@
     EDITOR = "${pkgs.neovim}/bin/nvim";
     SHELL = userSettings.shell;
     TERMINAL = "${userSettings.term}";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
   };
 
   systemd.user.services = {
