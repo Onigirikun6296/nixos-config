@@ -38,6 +38,9 @@
           visualizerSupport = true;
         };
         rofi = pkgs.rofi-wayland;
+        hyprland = pkgs.hyprland.override {
+          legacyRenderer = true;
+        };
       };
     };
 
