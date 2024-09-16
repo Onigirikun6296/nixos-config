@@ -15,6 +15,9 @@ in {
         general = {
           hide_cursor = true;
         };
+        cursor = {
+          no_hardware_cursors = true;
+        };
         background = [
           {
             path = lock_wallpaper;
@@ -173,6 +176,9 @@ in {
         layout = "master";
       };
       decoration = {
+        blur = {
+          enabled = false;
+        };
         drop_shadow = "yes";
         shadow_range = "4";
         shadow_render_power = "3";
@@ -204,6 +210,7 @@ in {
       windowrulev2 = [
         "float,title:^(hydrus client booting)$ "
         "float,title:^(hydrus client exiting)(.*)$"
+        "float,class:(org.freedesktop.impl.portal.desktop.kde)"
         "move cursor -50% -50%,title:^(new page — hydrus client)(.*)$"
         "float, title:^(yomichad)$"
         "move cursor -50% -50%, title:^(yomichad)$"
