@@ -4,17 +4,24 @@
 {
   config,
   lib,
+  inputs,
   pkgs,
   systemSettings,
   userSettings,
   ...
 }: {
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix = {
+    settings.experimental-features = ["nix-command" "flakes"];
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+    registry = {
+      nixpkgs.flake = inputs.nixpkgs;
+    };
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -98,6 +105,7 @@
     fzf
     jq
     p7zip
+    nvd
     xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
   ];
@@ -124,7 +132,6 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
 
   fonts.packages = with pkgs; [
