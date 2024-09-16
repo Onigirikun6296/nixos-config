@@ -17,6 +17,9 @@
   home = {
     inherit (userSettings) username;
     inherit (userSettings) homeDirectory;
+    activation.report-changes = config.lib.dag.entryAnywhere ''
+      ${pkgs.nvd}/bin/nvd diff $oldGenPath $newGenPath
+    '';
   };
 
   # This value determines the Home Manager release that your configuration is
