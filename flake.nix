@@ -19,8 +19,8 @@
     disko,
     home-manager,
     ...
-  }: let
-    inherit (nixpkgs) lib;
+  } @ inputs: let
+    lib = nixpkgs.lib;
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
@@ -76,6 +76,7 @@
           ./system/steam.nix
         ];
         specialArgs = {
+          inherit inputs;
           inherit systemSettings;
           inherit userSettings;
         };
