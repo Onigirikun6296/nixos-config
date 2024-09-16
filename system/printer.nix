@@ -5,6 +5,11 @@
     drivers = [pkgs.hplipWithPlugin];
   };
 
+  hardware.sane = {
+    enable = true;
+    extraBackends = [pkgs.hplipWithPlugin];
+  };
+
   environment.systemPackages = with pkgs; [
     hplip
   ];
