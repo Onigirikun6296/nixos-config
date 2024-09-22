@@ -256,7 +256,7 @@
       plugins = let
         plugin-src = pkgs.fetchgit {
           url = "https://github.com/yazi-rs/plugins/";
-          hash = "sha256-jg8+GDsHOSIh8QPYxCvMde1c1D9M78El0PljSerkLQc=";
+          hash = "sha256-3F7RIg2CZH/jo+XhG0n4Zfspgi/77Hve421j0p3Og+Q=";
         };
         smart-enter =
           pkgs.writeTextDir "smart-enter.yazi/init.lua"
@@ -278,7 +278,7 @@
         smart-enter = "${smart-enter}/smart-enter.yazi";
         relative-motions = pkgs.fetchgit {
           url = "https://github.com/dedukun/relative-motions.yazi";
-          hash = "sha256-jahJC6LXOnr974+zHEH9gqI+J1C68O+PvjSt8pelkP0=";
+          hash = "sha256-qtjAgH+NS4YFVIwq+x2sC90y4vDSXNI8pGXIZ3FuQMU=";
         };
       };
       settings = {

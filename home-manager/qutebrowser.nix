@@ -211,7 +211,7 @@ in {
       };
       control-panel-for-twitter = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/insin/control-panel-for-twitter/master/script.js";
-        hash = "sha256-pISk/Fhix1PHjxdyEh9fU8j7AyAGccYBsUMYfrapEBQ=";
+        hash = "sha256-NxgDLwIukJhRQmxWrR56URR3b60geYrRsIWLfIpdkIc=";
         postFetch = ''
           patch -Np1 $out ${self}/home-manager/patches/control-panel-for-twitter.patch
         '';
