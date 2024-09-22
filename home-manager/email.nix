@@ -20,7 +20,7 @@ in {
         from subprocess import check_output
 
         def get_pass(account):
-            return check_output("pass " + account, shell = True).splitlines()[0]
+            return check_output("${pkgs.pass}/bin/pass " + account, shell = True).splitlines()[0]
 
 
         if __name__ == "__main__":

@@ -81,6 +81,21 @@
           inherit userSettings;
         };
       };
+      Orion = lib.nixosSystem {
+        inherit system;
+        modules = [
+          disko.nixosModules.disko
+          ./disk-config.nix
+          ./system/configuration.nix
+          ./system/hardware-configuration.nix
+          ./system/bluetooth.nix
+        ];
+        specialArgs = {
+          inherit inputs;
+          inherit systemSettings;
+          inherit userSettings;
+        };
+      };
     };
     homeConfigurations = {
       oni = home-manager.lib.homeManagerConfiguration {
