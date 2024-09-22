@@ -41,6 +41,13 @@
         hyprland = pkgs.hyprland.override {
           legacyRenderer = true;
         };
+        mpv = pkgs.mpv.override {
+          scripts = with pkgs.mpvScripts; [
+            mpv-webm
+            uosc
+            thumbfast
+          ];
+        };
       };
     };
 
@@ -117,6 +124,7 @@
       pinentry-qt
       vesktop
       swayimg
+      socat
     ]
     ++ (with kdePackages; [
       dolphin
@@ -142,6 +150,7 @@
 
   programs = {
     nix-index.enable = true;
+
     yazi = {
       enable = true;
       initLua =

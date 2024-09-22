@@ -116,7 +116,7 @@ in {
         ",cm" = "config-cycle colors.webpage.darkmode.enabled";
         ",i" = "hint images spawn mpv {hint-url}";
         ",I" = "hint images download";
-        ",m" = "spawn --userscript view_in_mpv";
+        ",m" = "spawn --userscript ipc_mpv";
         ",M" = "hint links spawn mpv {hint-url}";
         ";M" = "hint --rapid links spawn mpv {hint-url}";
         ";d" = "hint links download";

@@ -210,6 +210,7 @@ in {
       windowrulev2 = [
         "float,title:^(hydrus client booting)$ "
         "float,title:^(hydrus client exiting)(.*)$"
+        "float,class:(youtube-scratchpad)"
         "float,class:(org.freedesktop.impl.portal.desktop.kde)"
         "move cursor -50% -50%,title:^(new page — hydrus client)(.*)$"
         "float, title:^(yomichad)$"
@@ -238,6 +239,7 @@ in {
           " $mod,m,exec,pypr toggle mail"
           " $mod,u,exec,pypr show unicode"
           " $mod,a,exec,pypr toggle agenda"
+          " $mod,y,exec,pypr toggle youtube"
           " $mod, R, exec, bemenu-run --fn \"${userSettings.mainFont} 14\" -H 24"
           " $mod, P, exec, rofi -show-icons -show drun"
           " $mod, left, movefocus, l"
@@ -318,6 +320,14 @@ in {
         class = "agenda-scratchpad";
         position = "25% 29px";
         size = "50% 50%";
+        max_size = "2900px 100%";
+      };
+      youtube = {
+        animation = "fromLeft";
+        command = "${pkgs.mpv}/bin/mpv --idle=yes --input-ipc-server=/tmp/mpvsocket";
+        class = "youtube-scratchpad";
+        position = "29px 65%";
+        size = "364px 364px";
         max_size = "2900px 100%";
       };
     };
