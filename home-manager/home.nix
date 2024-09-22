@@ -141,6 +141,7 @@
   };
 
   programs = {
+    nix-index.enable = true;
     yazi = {
       enable = true;
       initLua =

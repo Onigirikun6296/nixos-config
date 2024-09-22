@@ -11,6 +11,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -18,6 +22,7 @@
     nixpkgs,
     disko,
     home-manager,
+    nix-index-database,
     ...
   } @ inputs: let
     lib = nixpkgs.lib;
@@ -101,6 +106,7 @@
       oni = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
+          nix-index-database.hmModules.nix-index
           ./home-manager/home.nix
           ./home-manager/email.nix
         ];
