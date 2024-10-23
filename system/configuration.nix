@@ -114,6 +114,7 @@
       "hplip"
       "hplipWithPlugin"
       "steam"
+      "steam-unwrapped"
       "steam-original"
       "steam-run"
     ];
@@ -135,7 +136,7 @@
 
   fonts.packages = with pkgs; [
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-emoji
     (nerdfonts.override {fonts = ["Hack"];})
     uw-ttyp0
