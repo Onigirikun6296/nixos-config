@@ -5,8 +5,8 @@
 }: let
   display = "LVDS-1";
   resolution = "1600x900";
-  wallpaper = "${userSettings.homeDirectory}/Pictures/Wallpapers/1716425059533734.jpg";
-  lock_wallpaper = "${userSettings.homeDirectory}/Pictures/Wallpapers/1716425059533734.jpg";
+  wallpaper = "${userSettings.homeDirectory}/Pictures/Wallpapers/pexels-jonastogo-2681631.jpg";
+  lock_wallpaper = "${userSettings.homeDirectory}/Pictures/Wallpapers/pexels-jonastogo-2681631.jpg";
 in {
   programs = {
     hyprlock = {
@@ -177,7 +177,7 @@ in {
       };
       decoration = {
         blur = {
-          enabled = false;
+          enabled = true;
         };
         drop_shadow = "yes";
         shadow_range = "4";
@@ -326,7 +326,7 @@ in {
         animation = "fromLeft";
         command = "${pkgs.mpv}/bin/mpv --idle=yes --input-ipc-server=/tmp/mpvsocket";
         class = "youtube-scratchpad";
-        position = "29px 65%";
+        position = "1% 57%";
         size = "364px 364px";
         max_size = "2900px 100%";
       };
