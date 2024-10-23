@@ -337,89 +337,77 @@
             separator = "white";
           };
         };
-        modules = [
-          {
-            type = "custom";
-            format = "{#1}{#keys}{#39}╭───────────────System Information────────────────╮";
-          }
-          {
-            type = "os";
-            key = "{#33}   os       ";
-            format = "{2} {11}";
-          }
-          {
-            type = "host";
-            key = "{#33}  󰇄 host     ";
-          }
-          {
-            type = "kernel";
-            key = "{#31}   kernel   ";
-          }
-          {
-            type = "packages";
-            key = "{#33}  󰟾 packages ";
-          }
-          {
-            type = "shell";
-            key = "{#36}   shell    ";
-          }
-          {
-            type = "de";
-            key = "{#34}  󰇄 desktop  ";
-          }
-          {
-            type = "wm";
-            key = "{#34}   wm       ";
-          }
-          {
-            type = "terminal";
-            key = "{#35}   term     ";
-          }
-          {
-            type = "cpu";
-            key = "{#35}  󰍛 cpu      ";
-            format = "{1}";
-          }
-          {
-            type = "memory";
-            key = "{#32}   memory   ";
-            format = "";
-          }
-          {
-            type = "colors";
-            key = "{#39}   colors   ";
-            symbol = "circle";
-            format = "";
-          }
-          {
-            type = "custom";
-            format = "{#1}{#keys}{#39}╰─────────────────────────────────────────────────╯";
-          }
-          {
+        modules =
+          [
+            {
+              type = "custom";
+              format = "{#1}{#keys}{#39}╭───────────────System Information────────────────╮";
+            }
+            {
+              type = "os";
+              key = "{#33}   os       ";
+              format = "{2} {11}";
+            }
+            {
+              type = "host";
+              key = "{#33}  󰇄 host     ";
+            }
+            {
+              type = "kernel";
+              key = "{#31}   kernel   ";
+            }
+            {
+              type = "packages";
+              key = "{#33}  󰟾 packages ";
+            }
+            {
+              type = "shell";
+              key = "{#36}   shell    ";
+            }
+            {
+              type = "de";
+              key = "{#34}  󰇄 desktop  ";
+            }
+            {
+              type = "wm";
+              key = "{#34}   wm       ";
+            }
+            {
+              type = "terminal";
+              key = "{#35}   term     ";
+            }
+            {
+              type = "cpu";
+              key = "{#35}  󰍛 cpu      ";
+              format = "{1}";
+            }
+            {
+              type = "memory";
+              key = "{#32}   memory   ";
+              format = "";
+            }
+            {
+              type = "colors";
+              key = "{#39}   colors   ";
+              symbol = "circle";
+              format = "";
+            }
+            {
+              type = "custom";
+              format = "{#1}{#keys}{#39}╰─────────────────────────────────────────────────╯";
+            }
+          ]
+          ++ builtins.genList (_: {
             type = "break";
             format = "";
-          }
-          {
-            type = "break";
-            format = "";
-          }
-          {
-            type = "break";
-            format = "";
-          }
-          {
-            type = "break";
-            format = "";
-          }
-          {
-            type = "break";
-            format = "";
-          }
-          {
-            type = "custom";
-            format = "{#1}{#keys}{#39}                                     Art by @raika9";
-          }
-        ];
+          })
+          4
+          ++ [
+            {
+              type = "custom";
+              format = "{#1}{#keys}{#39}                                     Art by @raika9";
+            }
+          ];
       };
     };
 
@@ -868,17 +856,30 @@
   xdg = {
     mimeApps = {
       enable = true;
-      defaultApplications = {
-        "application/pdf" = ["org.pwmt.zathura.desktop"];
-        "application/vnd.microsoft.portable-executable" = ["wine.desktop"];
-        "image/png" = ["swayimg.desktop"];
-        "image/bmp" = ["swayimg.desktop"];
-        "image/jpg" = ["swayimg.desktop"];
-        "image/jpeg" = ["swayimg.desktop"];
-        "image/webp" = ["swayimg.desktop"];
-        "image/gif" = ["swayimg.desktop"];
-        "video/*" = ["mpv.desktop"];
-      };
+      defaultApplications = let
+        imageType = {
+          name = "image";
+          program = ["swayimg.desktop"];
+          formats = ["apng" "avif" "bmp" "gif" "vnd.microsoft.icon" "jpeg" "png" "tiff" "webp"];
+        };
+        videoType = {
+          name = "video";
+          program = ["mpv.desktop"];
+          formats = ["x-msvideo" "mp4" "mpeg" "ogg" "mp2t" "webm" "3gpp" "3gpp2"];
+        };
+        generateMime = type:
+          builtins.listToAttrs (builtins.map (format: {
+              name = "${type.name}/${format}";
+              value = type.program;
+            })
+            type.formats);
+      in
+        {
+          "application/pdf" = ["org.pwmt.zathura.desktop"];
+          "application/vnd.microsoft.portable-executable" = ["wine.desktop"];
+        }
+        // generateMime imageType
+        // generateMime videoType;
     };
 
     portal = {

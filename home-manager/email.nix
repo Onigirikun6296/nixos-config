@@ -29,18 +29,24 @@ in {
       '';
   };
 
-  systemd.user.services = {
-    "offlineimap@${primary.name}" = {
-      Unit.Description = "Offlineimap Service";
+  systemd.user.services = let
+    createEmailServices = emails:
+      builtins.listToAttrs (builtins.map (email: {
+          name = "offlineimap@${email}";
+          value = {
+            Unit.Description = "Offlineimap Service for account ${email}";
 
-      Service = {
-        ExecStart = "${pkgs.offlineimap}/bin/offlineimap -u basic -a ${primary.name}";
-        Restart = "on-failure";
-        RestartSec = 60;
-      };
-      Install.WantedBy = ["default.target"];
-    };
-  };
+            Service = {
+              ExecStart = "${pkgs.offlineimap}/bin/offlineimap -u basic -a ${email}";
+              Restart = "on-failure";
+              RestartSec = 60;
+            };
+            Install.WantedBy = ["default.target"];
+          };
+        })
+        emails);
+  in
+    {} // createEmailServices [primary.name secondary.name];
 
   accounts.email.accounts = {
     "${primary.name}" = {
