@@ -38,9 +38,6 @@
           visualizerSupport = true;
         };
         rofi = pkgs.rofi-wayland;
-        hyprland = pkgs.hyprland.override {
-          legacyRenderer = true;
-        };
         mpv = pkgs.mpv.override {
           scripts = with pkgs.mpvScripts; [
             mpv-webm
@@ -51,19 +48,8 @@
       };
     };
 
-    overlays = [
-      (_final: prev: {
-        swayimg = prev.swayimg.overrideAttrs (_prev: rec {
-          version = "3.2";
-          src = pkgs.fetchFromGitHub {
-            owner = "artemsen";
-            repo = "swayimg";
-            rev = "v${version}";
-            hash = "sha256-Eqs8U2BpjcweDi4oGS9nWpoyoXeuiD+6jviPA3s9/YY=";
-          };
-        });
-      })
-    ];
+    overlays = [ ];
+
   };
 
   # The home.packages option allows you to install Nix packages into your
