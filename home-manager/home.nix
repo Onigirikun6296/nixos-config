@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-stable,
   userSettings,
   lib,
   self,
@@ -54,7 +55,7 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs;
+  home.packages = (with pkgs;
     [
       # # Adds the 'hello' command to your environment. It prints a friendly
       # # "Hello, world!" when run.
@@ -91,10 +92,6 @@
       lazygit
       libcanberra-gtk3
       wl-clipboard
-      libsForQt5.kservice
-      adwaita-qt
-      adwaita-qt6
-      lxqt.pavucontrol-qt
       imagemagick
       krita
       gimp
@@ -111,10 +108,16 @@
       vesktop
       swayimg
       socat
-    ]
-    ++ (with kdePackages; [
+    ])
+    ++ (with pkgs-stable; [
+      lxqt.pavucontrol-qt
+    ])
+    ++ (with pkgs-stable.kdePackages; [
       dolphin
+      qtbase
+      qtwayland
       oxygen-icons
+      breeze
       breeze-icons
       ocean-sound-theme
       oxygen-sounds
@@ -123,7 +126,10 @@
       kimageformats
       kservice
       knotifications
+      kio-fuse
+      kio-extras
       qt6ct
+      qtsvg
     ]);
 
   i18n.inputMethod = {
@@ -567,7 +573,7 @@
         bell = {
           urgent = "no";
           notify = "no";
-          command = "paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/completion-partial.oga";
+          command = "paplay ${pkgs-stable.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/completion-partial.oga";
           command-focused = "yes";
         };
         colors = {
@@ -761,7 +767,7 @@
     dunst = {
       enable = true;
       iconTheme = {
-        package = pkgs.kdePackages.oxygen-icons;
+        package = pkgs-stable.kdePackages.oxygen-icons;
         name = "oxygen/base";
         size = "32x32";
       };

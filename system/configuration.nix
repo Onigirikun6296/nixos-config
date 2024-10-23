@@ -95,7 +95,6 @@
     gcc
     foot
     libsixel
-    qt6.full
     pulseaudio
     pavucontrol
     bottom

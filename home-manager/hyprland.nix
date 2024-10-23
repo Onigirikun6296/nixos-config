@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-stable,
   userSettings,
   ...
 }: let
@@ -148,7 +149,7 @@ in {
         "waybar"
         "pypr"
         "fcitx5 -d"
-        "paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/desktop-login.oga"
+        "paplay ${pkgs-stable.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/desktop-login.oga"
       ];
       input = {
         kb_layout = "us";

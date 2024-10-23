@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-24.05";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +21,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-stable,
     disko,
     home-manager,
     nix-index-database,
@@ -29,6 +31,9 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
+    };
+    pkgs-stable = import nixpkgs-stable {
+        inherit system;
     };
 
     systemSettings = {
@@ -50,7 +55,7 @@
       emojiFont = "Noto Color Emoji";
 
       term = "${pkgs.foot}/bin/foot";
-      file-manager = "${pkgs.kdePackages.dolphin}/bin/dolphin";
+      file-manager = "${pkgs-stable.kdePackages.dolphin}/bin/dolphin";
       shell = "${pkgs.fish}/bin/fish";
     };
   in {
@@ -113,6 +118,7 @@
         extraSpecialArgs = {
           inherit userSettings;
           inherit self;
+          inherit pkgs-stable;
         };
       };
     };
