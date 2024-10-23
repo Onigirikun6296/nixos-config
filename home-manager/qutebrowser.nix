@@ -152,7 +152,7 @@ in {
       tabs.show = "multiple";
       tabs.title.format = "{audio}{relative_index}: {current_title}";
       auto_save.session = true;
-      spellcheck.languages = ["en-GB" "el-GR"];
+      spellcheck.languages = ["en-GB"];
       scrolling.smooth = true;
     };
     extraConfig =
@@ -211,16 +211,21 @@ in {
       };
       control-panel-for-twitter = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/insin/control-panel-for-twitter/master/script.js";
-        hash = "sha256-NxgDLwIukJhRQmxWrR56URR3b60geYrRsIWLfIpdkIc=";
+        hash = "sha256-fxSb+DL5AcptszIUudnkSWBgtd/Q06GfdbDxC2W2uBk=";
         postFetch = ''
           patch -Np1 $out ${self}/home-manager/patches/control-panel-for-twitter.patch
         '';
+      };
+      youtube-adblock-ban-bypass = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/0belous/Youtube-AdBlock-ban-Bypass/refs/heads/main/main.user.js";
+        hash = "sha256-tXkDMCJs7X35TxmCRGOw3ovsTLYAly7UMe5nenmhdO8=";
       };
     in [
       sponsorblock
       _4chan-sounds-player
       _4chanX
       control-panel-for-twitter
+      youtube-adblock-ban-bypass
       (pkgs.writeText "AutoSkipYoutubeAds.js"
         /*
         javascript
