@@ -37,8 +37,8 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = (with pkgs;
-    [
+  home.packages =
+    (with pkgs; [
       # # Adds the 'hello' command to your environment. It prints a friendly
       # # "Hello, world!" when run.
       # pkgs.hello
@@ -58,7 +58,6 @@
       nil
       waybar
       dfc
-      pyprland
       hyprlock
       hypridle
       hyprpicker
@@ -90,11 +89,15 @@
       vesktop
       swayimg
       socat
+      comma
+      chafa
+      lxqt.pavucontrol-qt
+      libsForQt5.kservice
     ])
     ++ (with pkgs-stable; [
-      lxqt.pavucontrol-qt
+      pyprland
     ])
-    ++ (with pkgs-stable.kdePackages; [
+    ++ (with pkgs.kdePackages; [
       dolphin
       qtbase
       qtwayland
@@ -112,6 +115,9 @@
       kio-extras
       qt6ct
       qtsvg
+      systemsettings
+      qtstyleplugin-kvantum
+      qtimageformats
     ]);
 
   i18n.inputMethod = {
@@ -557,7 +563,7 @@
         bell = {
           urgent = "no";
           notify = "no";
-          command = "paplay ${pkgs-stable.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/completion-partial.oga";
+          command = "paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/completion-partial.oga";
           command-focused = "yes";
         };
         colors = {
@@ -761,7 +767,7 @@
     dunst = {
       enable = true;
       iconTheme = {
-        package = pkgs-stable.kdePackages.oxygen-icons;
+        package = pkgs.kdePackages.oxygen-icons;
         name = "oxygen/base";
         size = "32x32";
       };

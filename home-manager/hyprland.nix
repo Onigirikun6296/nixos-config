@@ -148,8 +148,7 @@ in {
       exec-once = [
         "waybar"
         "pypr"
-        "fcitx5 -d"
-        "paplay ${pkgs-stable.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/desktop-login.oga"
+        "paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/desktop-login.oga"
       ];
       input = {
         kb_layout = "us";
@@ -240,7 +239,7 @@ in {
           " $mod,m,exec,pypr toggle mail"
           " $mod,u,exec,pypr show unicode"
           " $mod,a,exec,pypr toggle agenda"
-          " $mod,y,exec,pypr toggle youtube"
+          # " $mod,y,exec,pypr toggle youtube"
           " $mod, R, exec, bemenu-run --fn \"${userSettings.mainFont} 14\" -H 24"
           " $mod, P, exec, rofi -show-icons -show drun"
           " $mod, left, movefocus, l"
@@ -323,14 +322,14 @@ in {
         size = "50% 50%";
         max_size = "2900px 100%";
       };
-      youtube = {
-        animation = "fromLeft";
-        command = "${pkgs.mpv}/bin/mpv --idle=yes --input-ipc-server=/tmp/mpvsocket";
-        class = "youtube-scratchpad";
-        position = "1% 57%";
-        size = "364px 364px";
-        max_size = "2900px 100%";
-      };
+      # youtube = {
+      #   animation = "fromLeft";
+      #   command = "${pkgs.mpv}/bin/mpv --idle=yes --input-ipc-server=/tmp/mpvsocket";
+      #   class = "youtube-scratchpad";
+      #   position = "1% 57%";
+      #   size = "364px 364px";
+      #   max_size = "2900px 100%";
+      # };
     };
   };
 }

@@ -6,6 +6,7 @@
   lib,
   inputs,
   pkgs,
+  pkgs-stable,
   systemSettings,
   userSettings,
   ...
