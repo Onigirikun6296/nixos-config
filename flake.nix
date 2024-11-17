@@ -33,7 +33,7 @@
       inherit system;
     };
     pkgs-stable = import nixpkgs-stable {
-        inherit system;
+      inherit system;
     };
 
     systemSettings = {
@@ -55,7 +55,7 @@
       emojiFont = "Noto Color Emoji";
 
       term = "${pkgs.foot}/bin/foot";
-      file-manager = "${pkgs-stable.kdePackages.dolphin}/bin/dolphin";
+      file-manager = "dolphin";
       shell = "${pkgs.fish}/bin/fish";
     };
   in {

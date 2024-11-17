@@ -99,7 +99,7 @@
       };
     };
 
-    style = ''
+    style = /*css*/ ''
 
       * {
         border: none;

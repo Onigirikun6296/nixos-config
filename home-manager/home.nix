@@ -32,26 +32,8 @@
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
-  nixpkgs = {
-    config = {
-      packageOverrides = pkgs: {
-        ncmpcpp = pkgs.ncmpcpp.override {
-          visualizerSupport = true;
-        };
-        rofi = pkgs.rofi-wayland;
-        mpv = pkgs.mpv.override {
-          scripts = with pkgs.mpvScripts; [
-            mpv-webm
-            uosc
-            thumbfast
-          ];
-        };
-      };
-    };
-
-    overlays = [ ];
-
-  };
+  nixpkgs.overlays = [
+  ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -301,6 +283,7 @@
 
     rofi = {
       enable = true;
+      package = pkgs.rofi-wayland;
       font = "Unifont 12";
       location = "center";
       pass = {
@@ -319,6 +302,7 @@
           padding = {
             top = 0;
             left = 1;
+            right = 5;
           };
           width = 40;
           height = 20;
@@ -517,7 +501,7 @@
           set -g default-terminal 'tmux-256color'
           set-option -sa terminal-features ',xterm-256color:RGB'
 
-          set -g allow-passthrough on
+          set -g allow-passthrough all
           set -ga update-environment TERM
           set -ga update-environment TERM_PROGRAM
 
@@ -578,7 +562,7 @@
         };
         colors = {
           # alpha=1.0
-          background = "2d2a2e";
+          background = "2b282d";
           foreground = "e3e1e4";
 
           ## Normal/regular colors (color palette 0-7)
@@ -606,6 +590,9 @@
 
     ncmpcpp = {
       enable = true;
+      package = pkgs.ncmpcpp.override {
+        visualizerSupport = true;
+      };
       bindings = [
         {
           key = "k";
@@ -675,6 +662,18 @@
 
     mpv = {
       enable = true;
+      package = (
+        pkgs.mpv-unwrapped.wrapper {
+          scripts = with pkgs.mpvScripts; [
+            mpv-webm
+            uosc
+            thumbfast
+          ];
+          mpv = pkgs.mpv-unwrapped.override {
+            waylandSupport = true;
+          };
+        }
+      );
       config = {
         geometry = "50%:50%";
         keep-open = true;
@@ -706,11 +705,6 @@
           loop-file = "inf";
         };
       };
-      scripts = with pkgs.mpvScripts; [
-        mpv-webm
-        uosc
-        thumbfast
-      ];
     };
 
     bottom = {
