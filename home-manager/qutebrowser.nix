@@ -103,6 +103,7 @@ in {
       mal = "https://myanimelist.net/search/all?q={}&cat=all";
       t = "https://tenor.com/search/{}-gifs";
       pkgs = "https://search.nixos.org/packages?query={}";
+      nwiki = "https://wiki.nixos.org/w/index.php?search={}";
     };
     aliases = {
       "q" = "close";
@@ -134,8 +135,8 @@ in {
 
     settings = {
       fonts = {
-        default_family = [(userSettings.jpFont + "[GNU ]") userSettings.emojiFont];
-        default_size = "12pt";
+        default_family = ["DejaVu Sans" userSettings.emojiFont];
+        default_size = "9pt";
       };
       content = {
         notifications = {
