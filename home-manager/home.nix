@@ -1003,8 +1003,8 @@
         e = "exec echo \"Image: %\"";
         Escape = "exit";
         q = "exit";
-        ScrollLeft = "step_right 5";
-        ScrollRight = "step_left 5";
+        ScrollLeft = "step_left 5";
+        ScrollRight = "step_right 5";
         ScrollUp = "step_up 5";
         ScrollDown = "step_down 5";
         "Ctrl+ScrollUp" = "zoom +10";
