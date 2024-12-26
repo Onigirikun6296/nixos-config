@@ -17,6 +17,7 @@ _: {
       options = [
         "users"
         "nofail"
+        "exec"
       ];
     };
 
