@@ -481,7 +481,11 @@
       keyMode = "vi";
       mouse = true;
       escapeTime = 10;
+      focusEvents = true;
+      terminal = "tmux-256color";
       inherit (userSettings) shell;
+      customPaneNavigationAndResize = true;
+      resizeAmount = 2;
       extraConfig = let
         despell = pkgs.rustPlatform.buildRustPackage {
           pname = "despell";
@@ -499,8 +503,6 @@
         sh
         */
         ''
-          set-option -g focus-events on
-          set -g default-terminal 'tmux-256color'
           set-option -sa terminal-features ',xterm-256color:RGB'
 
           set -g allow-passthrough all
@@ -509,22 +511,6 @@
 
           bind | split-window -h -c '#{pane_current_path}'
           bind - split-window -v -c '#{pane_current_path}'
-
-          bind -n M-Left select-pane -L
-          bind -n M-Right select-pane -R
-          bind -n M-Up select-pane -U
-          bind -n M-Down select-pane -D
-
-          bind -n M-h select-pane -L
-          bind -n M-l select-pane -R
-          bind -n M-k select-pane -U
-          bind -n M-j select-pane -D
-
-          #Resizing panes:
-          bind -r j resize-pane -D 2
-          bind -r k resize-pane -U 2
-          bind -r h resize-pane -L 2
-          bind -r l resize-pane -R 2
 
           setw -g monitor-activity on
           set -g visual-activity on
