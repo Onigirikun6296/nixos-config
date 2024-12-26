@@ -123,9 +123,9 @@
 
   i18n.inputMethod = {
     enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5-mozc
-      fcitx5-material-color
+    fcitx5.addons = [
+      pkgs-stable.fcitx5-mozc
+      pkgs.fcitx5-material-color
     ];
   };
 
