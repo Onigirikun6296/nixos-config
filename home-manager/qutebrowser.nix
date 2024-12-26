@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-stable,
   userSettings,
   self,
   ...
@@ -93,6 +94,7 @@ in {
 
   programs.qutebrowser = {
     enable = true;
+    package = pkgs.qutebrowser-qt5;
     loadAutoconfig = true;
     searchEngines = {
       DEFAULT = "https://duckduckgo.com/?ia=web&q={}";
@@ -135,10 +137,11 @@ in {
 
     settings = {
       fonts = {
-        default_family = ["DejaVu Sans" userSettings.emojiFont];
-        default_size = "9pt";
+        default_family = [(userSettings.jpFont + "[GNU ]") userSettings.emojiFont];
+        default_size = "12pt";
       };
       content = {
+        # proxy = "socks://localhost:9050";
         notifications = {
           presenter = "libnotify";
           show_origin = false;
@@ -146,6 +149,14 @@ in {
         blocking = {
           enabled = true;
           method = "adblock";
+          adblock.lists = [
+            "https://raw.githubusercontent.com/easylist/easylist/refs/heads/gh-pages/easylist.txt"
+            "https://raw.githubusercontent.com/easylist/easylist/refs/heads/gh-pages/easyprivacy.txt"
+            "https://raw.githubusercontent.com/easylist/easylist/refs/heads/gh-pages/fanboy-annoyance.txt"
+            "https://raw.githubusercontent.com/easylist/easylist/refs/heads/gh-pages/fanboy-newsletter.txt"
+            "https://raw.githubusercontent.com/easylist/easylist/refs/heads/gh-pages/fanboy-social.txt"
+            "https://raw.githubusercontent.com/easylist/easylist/refs/heads/gh-pages/fanboy-sounds.txt"
+          ];
         };
         javascript.clipboard = "access";
         pdfjs = true;
@@ -155,48 +166,9 @@ in {
       auto_save.session = true;
       spellcheck.languages = ["en-GB"];
       scrolling.smooth = true;
+      editor.command = ["${userSettings.term}" "nvim" "-f" "{file}" "-c" "normal {line}G{column0}l"];
     };
-    extraConfig =
-      /*
-      python
-      */
-      ''
-        import sys, os
 
-        settings = {
-
-                # Fingerprint Settings
-                # 'content.headers.user_agent'        : 'Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/106.0',
-                # 'content.headers.accept_language'   : 'en-US,en;q=0.5',
-                # 'content.headers.custom'            : {"accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"},
-
-                # Tor
-                # 'content.proxy'                   : 'socks://localhost:9050',
-
-                # Fonts
-
-                # Misc
-                'editor.command'                    : ['${userSettings.term}', 'nvim', '-f','{file}', '-c', 'normal {line}G{column0}l'],
-
-                # Adblock lists
-                'content.blocking.adblock.lists'    : [
-                                                        "https://easylist-downloads.adblockplus.org/easylist.txt",
-                                                        "https://easylist-downloads.adblockplus.org/easyprivacy.txt",
-                                                        "https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt",
-                                                        "https://easylist-downloads.adblockplus.org/fanboy-social.txt",
-                                                        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt",
-                                                        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances.txt",
-                                                        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt",
-                                                        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt",
-                                                        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/resource-abuse.txt",
-                                                        "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt",
-                                                      ]
-        }
-
-        for setting, value in settings.items():
-            config.set(setting, value)
-
-      '';
     greasemonkey = let
       sponsorblock = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/afreakk/greasemonkeyscripts/master/youtube_sponsorblock.js";
@@ -212,7 +184,7 @@ in {
       };
       control-panel-for-twitter = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/insin/control-panel-for-twitter/master/script.js";
-        hash = "sha256-fxSb+DL5AcptszIUudnkSWBgtd/Q06GfdbDxC2W2uBk=";
+        hash = "sha256-9c2gr+8tp7HZ0H6nAM65S9Z3sEoTIHtLEHAVG+CMmjU=";
         postFetch = ''
           patch -Np1 $out ${self}/home-manager/patches/control-panel-for-twitter.patch
         '';
