@@ -139,7 +139,7 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    (nerdfonts.override {fonts = ["Hack"];})
+    nerd-fonts.hack
     uw-ttyp0
   ];
 
