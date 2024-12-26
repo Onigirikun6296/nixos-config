@@ -99,91 +99,95 @@
       };
     };
 
-    style = /*css*/ ''
+    style =
+      /*
+      css
+      */
+      ''
 
-      * {
-        border: none;
-        font-family: "${userSettings.mainFont}", ${userSettings.jpFont};
-        font-size: 14px;
-      }
-
-      tooltip {
-        background: rgba(43, 48, 59, 0.7);
-        border: 1px solid rgba(100, 114, 125, 0.5);
-      }
-      tooltip label {
-        font-size: 14px;
-        color: white;
-      }
-
-      #mpd {
-        font-family: "${userSettings.mainFont}", "${userSettings.jpFont}", "${userSettings.nerdFont}";
-      }
-
-      #workspaces button {
-        padding: 0 2px;
-        border-radius: 0;
-        color: white;
-      }
-
-      #workspaces button.active {
-        background: white;
-        color: black;
-      }
-
-      #workspaces button.urgent {
-        background: red;
-        color: white;
-      }
-
-      #mpd,
-      #bluetooth,
-      #battery,
-      #clock,
-      #tray,
-      #temperature,
-      #memory,
-      #network {
-        margin-right: 15px;
-      }
-
-
-      #battery.critical:not(charging) {
-        animation-name: blink;
-        animation-duration: 0.5s;
-        animation-timing-function: steps(12);
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-      }
-
-      #temperature.critical {
-        animation-name: blink;
-        animation-duration: 0.5s;
-        animation-timing-function: steps(12);
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-      }
-
-      @keyframes blink {
-        to {
-          color: #f53c3c;
+        * {
+          border: none;
+          font-family: "${userSettings.mainFont}", ${userSettings.jpFont};
+          font-size: 14px;
         }
-      }
 
-      #mode, #window {
-        margin-left: 20px;
-        color: white;
-      }
+        tooltip {
+          background: rgba(43, 48, 59, 0.7);
+          border: 1px solid rgba(100, 114, 125, 0.5);
+        }
+        tooltip label {
+          font-size: 14px;
+          color: white;
+        }
 
-      window#waybar {
-        background: rgba(43, 48, 59, 0.7);
-        color: white;
-      }
+        #mpd {
+          font-family: "${userSettings.mainFont}", "${userSettings.jpFont}", "${userSettings.nerdFont}";
+        }
 
-      #temperature.critical {
-        color: red;
-      }
+        #workspaces button {
+          padding: 0 2px;
+          border-radius: 0;
+          color: white;
+        }
 
-    '';
+        #workspaces button.active {
+          background: white;
+          color: black;
+        }
+
+        #workspaces button.urgent {
+          background: red;
+          color: white;
+        }
+
+        #mpd,
+        #bluetooth,
+        #battery,
+        #clock,
+        #tray,
+        #temperature,
+        #memory,
+        #network {
+          margin-right: 15px;
+        }
+
+
+        #battery.critical:not(charging) {
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: steps(12);
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+        }
+
+        #temperature.critical {
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: steps(12);
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+        }
+
+        @keyframes blink {
+          to {
+            color: #f53c3c;
+          }
+        }
+
+        #mode, #window {
+          margin-left: 20px;
+          color: white;
+        }
+
+        window#waybar {
+          background: rgba(43, 48, 59, 0.7);
+          color: white;
+        }
+
+        #temperature.critical {
+          color: red;
+        }
+
+      '';
   };
 }
