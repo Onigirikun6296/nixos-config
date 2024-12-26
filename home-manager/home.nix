@@ -55,6 +55,7 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
+      libnotify
       nil
       waybar
       dfc
@@ -745,58 +746,18 @@
   };
 
   services = {
-    dunst = {
+    mako = {
       enable = true;
-      iconTheme = {
-        package = pkgs.kdePackages.oxygen-icons;
-        name = "oxygen/base";
-        size = "32x32";
-      };
-      settings = {
-        global = {
-          follow = "mouse";
-          indicate_hidden = "yes";
-          shrink = "no";
-          offset = "15x15";
-          padding = "20";
-          gap_size = "10";
-          frame_width = "1";
-          frame_color = "#FFFFFF";
-          idle_threshold = "120";
-          font = "${userSettings.mainFont} 10";
-          line_height = "0";
-          markup = "full";
-          format = ''<b>%s</b>\n%b'';
-          alignment = "left";
-          word_wrap = "yes";
-          ignore_newline = "no";
-          stack_duplicates = "true";
-          show_indicators = "yes";
-          icon_position = "left";
-          progress_bar_frame_width = "1";
-          progress_bar_height = "5";
-          progress_bar_max_width = "200";
-          progress_bar_corner_radius = "5";
-          sort = "update";
-        };
-
-        urgency_low = {
-          background = "#282A36";
-          foreground = "#FFFFFF";
-          timeout = 10;
-        };
-        urgency_normal = {
-          background = "#282A36";
-          foreground = "#FFFFFF";
-          timeout = 10;
-        };
-        urgency_critical = {
-          background = "#900000";
-          foreground = "#FFFFFF";
-          frame_color = "#FF0000";
-          timeout = 0;
-        };
-      };
+      anchor = "top-right";
+      backgroundColor = "#282A36";
+      borderColor = "#FFFFFF";
+      defaultTimeout = 10000;
+      iconPath = "${pkgs.kdePackages.oxygen-icons}/share/icons/oxygen/base";
+      font = "${userSettings.mainFont} 10";
+      format = ''<b>%s</b>\n%b'';
+      extraConfig = ''
+        on-button-middle=invoke-action middle
+      '';
     };
 
     mpd = {
