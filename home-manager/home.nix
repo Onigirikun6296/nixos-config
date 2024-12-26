@@ -169,19 +169,13 @@
           	return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("blue")
           end, 500, Header.LEFT)
         ''
-        + builtins.readFile (pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/sxyazi/yazi/shipped/yazi-plugin/preset/components/status.lua";
-          hash = "sha256-tATzfKy1ks4AIGcpnwa/oTYowdxVlPaJcRK1BP9PYdc=";
-          postFetch = ''
-            patch -Np1 -F 3 $out ${self}/home-manager/patches/yazi-status-symlink.patch
-          '';
-        });
+        '';
       keymap = {
         manager = {
           prepend_keymap =
             [
               {
-                run = "plugin --sync hide-preview";
+                run = "plugin hide-preview";
                 on = ["z" "p"];
               }
               {
@@ -212,12 +206,12 @@
                 on = ["F"];
               }
               {
-                run = "plugin --sync smart-enter";
+                run = "plugin smart-enter";
                 desc = "Enter the child directory, or open the file";
                 on = ["l"];
               }
               {
-                run = "plugin --sync smart-enter";
+                run = "plugin smart-enter";
                 desc = "Enter the child directory, or open the file";
                 on = ["<Enter>"];
               }
@@ -245,26 +239,13 @@
       plugins = let
         plugin-src = pkgs.fetchgit {
           url = "https://github.com/yazi-rs/plugins/";
-          hash = "sha256-3F7RIg2CZH/jo+XhG0n4Zfspgi/77Hve421j0p3Og+Q=";
+          hash = "sha256-w9dSXW0NpgMOTnBlL/tzlNSCyRpZNT4XIcWZW5NlIUQ=";
         };
-        smart-enter =
-          pkgs.writeTextDir "smart-enter.yazi/init.lua"
-          /*
-          lua
-          */
-          ''
-            return {
-            	entry = function()
-            		local h = cx.active.current.hovered
-            		ya.manager_emit(h and h.cha.is_dir and "enter" or "open", { hovered = true })
-            	end,
-            }
-          '';
       in {
         hide-preview = "${plugin-src}/hide-preview.yazi";
         full-border = "${plugin-src}/full-border.yazi";
         jump-to-char = "${plugin-src}/jump-to-char.yazi";
-        smart-enter = "${smart-enter}/smart-enter.yazi";
+        smart-enter = "${plugin-src}/smart-enter.yazi";
         relative-motions = pkgs.fetchgit {
           url = "https://github.com/dedukun/relative-motions.yazi";
           hash = "sha256-qtjAgH+NS4YFVIwq+x2sC90y4vDSXNI8pGXIZ3FuQMU=";
