@@ -836,7 +836,12 @@
       ];
     };
 
-    desktopEntries = {
+    desktopEntries = let
+      mspaint-exe = pkgs.fetchzip {
+        url = "https://ia804705.us.archive.org/3/items/MSPaintWinXP/mspaint%20WinXP%20English.zip";
+        hash = "sha256-whRPXwzJSPbdUZZGAnl61SVANw7mnAZs8nN9TcA4LIU=";
+      };
+    in {
       "org.qutebrowser.qutebrowser" = {
         name = "qutebrowser";
         genericName = "Web Browser";
@@ -857,6 +862,11 @@
         name = "PulseAudio Volume Control";
         genericName = "Adjust volume levels and select audio devices";
         icon = "multimedia-volume-control";
+      };
+      mspaint = {
+        name = "Microsoft Paint";
+        exec = "wine ${mspaint-exe}/mspaint.exe";
+        terminal = false;
       };
     };
   };
