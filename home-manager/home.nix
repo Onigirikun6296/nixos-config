@@ -95,6 +95,7 @@
       lxqt.pavucontrol-qt
       libsForQt5.kservice
       libsForQt5.qt5ct
+      chromium
     ])
     ++ (with pkgs-stable; [
       pyprland
