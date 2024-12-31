@@ -851,7 +851,7 @@
         name = "qutebrowser";
         genericName = "Web Browser";
         icon = "qutebrowser";
-        exec = "env QT_QPA_PLATFORMTHEME=qt5ct ${pkgs.qutebrowser-qt5}/bin/qutebrowser --untrusted-args %u";
+        exec = "env QT_QPA_PLATFORMTHEME=qt6ct ${pkgs.qutebrowser}/bin/qutebrowser --untrusted-args %u";
         terminal = false;
         categories = ["Network" "WebBrowser"];
         mimeType = ["text/html" "text/xml" "application/xhtml+xml" "application/xml" "application/rdf+xml" "image/gif" "image/jpeg" "image/png" "image/webp" "x-scheme-handler/http" "x-scheme-handler/https" "x-scheme-handler/qute"];

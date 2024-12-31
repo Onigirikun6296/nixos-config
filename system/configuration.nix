@@ -106,8 +106,6 @@
     jq
     p7zip
     nvd
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-gtk
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg:
@@ -133,6 +131,7 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
 
   fonts.packages = with pkgs; [

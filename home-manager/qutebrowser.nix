@@ -94,7 +94,6 @@ in {
 
   programs.qutebrowser = {
     enable = true;
-    package = pkgs.qutebrowser-qt5;
     loadAutoconfig = true;
     searchEngines = {
       DEFAULT = "https://duckduckgo.com/?ia=web&q={}";
