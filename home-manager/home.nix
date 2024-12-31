@@ -59,6 +59,7 @@
       nil
       waybar
       dfc
+      hyprland-qtutils
       hyprlock
       hypridle
       hyprpicker
