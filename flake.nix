@@ -81,7 +81,7 @@
           ./system/configuration.nix
           ./system/hardware-configuration.nix
           ./system/filesystems.nix
-          ./system/printer.nix
+          # ./system/printer.nix
           ./system/bluetooth.nix
           ./system/steam.nix
         ];
