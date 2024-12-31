@@ -823,17 +823,20 @@
       config = {
         hyprland = {
           default = [
+            "gtk"
             "hyprland"
-            "kde"
           ];
           "org.freedesktop.impl.portal.FileChooser" = [
             "kde"
           ];
+          "org.freedesktop.impl.portal.ScreenCast" = [
+            "hyprland"
+          ];
         };
       };
       extraPortals = with pkgs; [
-        kdePackages.xdg-desktop-portal-kde
         xdg-desktop-portal-hyprland
+        kdePackages.xdg-desktop-portal-kde
         xdg-desktop-portal-gtk
       ];
     };
