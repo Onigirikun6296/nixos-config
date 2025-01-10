@@ -900,6 +900,19 @@
 
       doCheck = false;
     };
+    vencord_theme = {
+      main = pkgs.fetchurl {
+        url = "https://refact0r.github.io/system24/src/main.css";
+        hash = "sha256-M/6elJCjbQLS1EXLuVEha+jU5Onw1JNo/HoF9UPTAWI=";
+        postFetch = ''
+          patch -Np1 -F 3 $out ${self}/home-manager/patches/discord_theme.patch
+        '';
+      };
+      unrounding = pkgs.fetchurl {
+        url = "https://refact0r.github.io/system24/src/unrounding.css";
+        hash = "sha256-1CHxx6tdDR5WuSpsc46d0aer+5WVEZ6PTTaiIUz3P/o=";
+      };
+    };
   in {
     ".local/share/nvim/lazy/sniprun/target/release/sniprun".source = "${sniprun-bin}/bin/sniprun";
 
@@ -907,6 +920,9 @@
       pinentry-program ${pkgs.pinentry-qt}/bin/pinentry-qt
 
     '';
+
+    ".config/vesktop/themes/main.css".source = "${vencord_theme.main}";
+    ".config/vesktop/themes/unrounding.css".source = "${vencord_theme.unrounding}";
 
     ".config/swayimg/config".text = lib.generators.toINI {} {
       general = {
