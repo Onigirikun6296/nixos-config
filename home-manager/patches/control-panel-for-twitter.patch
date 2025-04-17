@@ -1,0 +1,27 @@
+--- a/script.js
++++ b/script.js
+@@ -74,13 +74,13 @@
+   hideBlueReplyFollowedBy: false,
+   hideBlueReplyFollowing: false,
+   hideBookmarkButton: false,
+-  hideBookmarkMetrics: true,
++  hideBookmarkMetrics: false,
+   hideBookmarksNav: false,
+   hideCommunitiesNav: false,
+   hideComposeTweet: false,
+   hideExplorePageContents: true,
+   hideFollowingMetrics: true,
+-  hideForYouTimeline: true,
++  hideForYouTimeline: false,
+   hideGrokNav: true,
+   hideInlinePrompts: true,
+   hideJobsNav: true,
+@@ -104,7 +104,7 @@
+   hideTwitterBlueUpsells: true,
+   hideUnavailableQuoteTweets: true,
+   hideVerifiedNotificationsTab: true,
+-  hideViews: true,
++  hideViews: false,
+   hideWhoToFollowEtc: true,
+   listRetweets: 'ignore',
+   mutableQuoteTweets: true,
