@@ -1,0 +1,14 @@
+--- a/adguard.js
++++ b/adguard.js
+@@ -1,3 +1,11 @@
++// ==UserScript==
++// @name        AdGuard's Block Youtube Ads
++// @description AdGuard's Block Youtube Ads
++// @match        *://*.youtube.com/*
++// @exclude      *://*.youtube.com/subscribe_embed?*
++// @version     1
++// ==/UserScript==
++
+ /* eslint-disable */
+ 
+ /**

@@ -1,0 +1,136 @@
+--- main.css
++++ main.css
+@@ -1,55 +1,59 @@
+-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+ @import url('https://fonts.cdnfonts.com/css/asciid');
+ 
+ :root {
+-	--font: 'DM Mono';
+-	letter-spacing: -0.05ch;
+-	font-weight: 300;
+-	--label-font-weight: 500;
+-
+-	--corner-text: 'system24';
+-
+-	--pad: 16px;
+-	--txt-pad: 10px;
+-
+-	--panel-roundness: 0px;
+-
+-	--bg-0: oklch(19% 0 0);
+-	--bg-1: oklch(23% 0 0);
+-	--bg-2: oklch(27% 0 0);
+-	--bg-3: oklch(31% 0 0);
+-
+-	--hover: oklch(54% 0 0 / 0.1);
+-	--active: oklch(54% 0 0 / 0.2);
+-	--selected: var(--active);
+-
+-	--txt-dark: var(--bg-0);
+-	--txt-link: var(--cyan);
+-	--txt-0: oklch(90% 0 0);
+-	--txt-1: oklch(80% 0 0);
+-	--txt-2: oklch(60% 0 0);
+-	--txt-3: oklch(40% 0 0);
+-
+-	--acc-0: var(--purple);
+-	--acc-1: var(--purple-1);
+-	--acc-2: var(--purple-2);
+-
+-	--border-width: 2px;
+-	--border-color: var(--bg-3);
+-	--border-hover-color: var(--acc-0);
+-	--border-transition: 0.2s ease;
+-
+-	--online-dot: var(--green);
+-	--dnd-dot: var(--pink);
+-	--idle-dot: var(--yellow);
+-	--streaming-dot: var(--purple);
+-
+-	--mention-txt: var(--acc-0);
+-	--mention-bg: color-mix(in oklch, var(--acc-0), transparent 90%);
+-	--mention-overlay: color-mix(in oklch, var(--acc-0), transparent 90%);
+-	--mention-hover-overlay: color-mix(in oklch, var(--acc-0), transparent 95%);
+-	--reply-overlay: var(--active);
+-	--reply-hover-overlay: var(--hover);
++    --font: 'Unifont';
++	font-weight: 300; /* UI font weight. */
++	--label-font-weight: 500; /* font weight for panel labels. */
++	--corner-text: 'system24'; /* custom text to display in the corner. only works on windows. */
++	--pad: 10px; /* padding between panels. */
++	--txt-pad: 9px; /* padding inside panels to prevent labels from clipping */
++	--panel-roundness: 0px; /* corner roundness of panels. ONLY WORKS IF unrounding.css IS REMOVED (see above). */
++
++	/* background colors */
++	--bg-0: oklch(28.2% 0.01 312.1); /* main background color. */
++	--bg-1: oklch(23% 0 0); /* background color for secondary elements like code blocks, embeds, etc. */
++	--bg-2: oklch(27% 0 0); /* color of neutral buttons. */
++	--bg-3: oklch(31% 0 0); /* color of neutral buttons when hovered. */
++
++	/* state modifiers */
++	--hover: oklch(54% 0 0 / 0.1); /* color of hovered elements. */
++	--active: oklch(54% 0 0 / 0.2); /* color of elements when clicked. */
++	--selected: var(--active); /* color of selected elements. */
++
++	/* text colors */
++	--txt-dark: var(--bg-0); /* color of dark text on colored backgrounds. */
++	--txt-link: var(--cyan); /* color of links. */
++	--txt-0: oklch(90% 0 0); /* color of bright/white text. */
++	--txt-1: oklch(80% 0 0); /* main text color. */
++	--txt-2: oklch(60% 0 0); /* color of secondary text like channel list. */
++	--txt-3: oklch(40% 0 0); /* color of muted text. */
++
++	/* accent colors */
++	--acc-0: oklch(69.09% 0.1896 8.47); /* main accent color. */
++	--acc-1: var(--purple-1); /* color of accent buttons when hovered. */
++	--acc-2: var(--purple-2); /* color of accent buttons when clicked. */
++
++	/* borders */
++	--border-width: 1px; /* panel border thickness. */
++	--border-color: var(--bg-3); /* panel border color. */
++	--border-hover-color: var(--acc-0); /* panel border color when hovered. */
++	--border-transition: 0.0s ease; /* panel border transition. */
++
++	/* status dot colors */
++	--online-dot: oklch(79.37% 0.133 130.67); /* color of online dot. */
++	--dnd-dot: oklch(69.09% 0.1896 8.47); /* color of do not disturb dot. */
++	--idle-dot: oklch(82.95% 0.1222 90.8); /* color of idle dot. */
++	--streaming-dot: oklch(74.8% 0.1233 295.01); /* color of streaming dot. */
++
++	/* mention/ping and message colors */
++	--mention-txt: var(--acc-0); /* color of mention text. */
++	--mention-bg: color-mix(in oklch, var(--acc-0), transparent 90%); /* background highlight of mention text. */
++	--mention-overlay: color-mix(in oklch, var(--acc-0), transparent 90%); /* overlay color of messages that mention you. */
++	--mention-hover-overlay: color-mix(in oklch, var(--acc-0), transparent 95%); /* overlay color of messages that mention you when hovered. */
++	--reply-overlay: var(--active); /* overlay color of message you are replying to. */
++	--reply-hover-overlay: var(--hover); /* overlay color of message you are replying to when hovered. */
++
++	/* color shades */
+ 
+ 	--pink: oklch(73% 0.12 0);
+ 	--pink-1: oklch(63% 0.12 0);
+@@ -301,9 +305,11 @@
+ 	border-top: none;
+ 	transition: border-color var(--border-transition);
+ }
++/*
+ .chatContent_f75fb0:has([class^='typing_']) > .messagesWrapper__36d07 > [class^='jumpToPresentBar_'] {
+ 	margin-bottom: 22px;
+ }
++*/
+ .clipContainer__841c8 {
+ 	margin-top: 0;
+ }
+@@ -573,10 +579,11 @@
+ 	top: calc(-6px - 0.5 * var(--border-width));
+ }
+ 
+-/* toolbar order */
++/*
+ [class^='toolbar_'] > [class^='search_'] {
+ 	order: -1;
+ }
++*/
+ 
+ h3[data-text-variant='heading-xxl/extrabold'] {
+ 	font-family: 'asciid';
