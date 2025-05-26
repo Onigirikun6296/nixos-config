@@ -64,6 +64,8 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
+      fselect
+      dust
       mednafen
       cava
       weechat
