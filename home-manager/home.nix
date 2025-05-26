@@ -91,7 +91,7 @@
       wl-clipboard
       imagemagick
       krita
-      gimp
+      gimp3
       grim
       slurp
       offlineimap
