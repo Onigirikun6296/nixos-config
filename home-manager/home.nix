@@ -65,6 +65,7 @@
       #   echo "Hello, ${config.home.username}!"
       # '')
       weechat
+      rmpc
       libnotify
       nil
       waybar
@@ -611,78 +612,6 @@
       };
     };
 
-    ncmpcpp = {
-      enable = true;
-      package = pkgs.ncmpcpp.override {
-        visualizerSupport = true;
-      };
-      bindings = [
-        {
-          key = "k";
-          command = "scroll_up";
-        }
-        {
-          key = "j";
-          command = "scroll_down";
-        }
-        {
-          key = "ctrl-u";
-          command = "page_up";
-        }
-        {
-          key = "ctrl-d";
-          command = "page_down";
-        }
-        {
-          key = "l";
-          command = ["next_column" "slave_screen"];
-        }
-        {
-          key = "h";
-          command = ["previous_column" "master_screen "];
-        }
-        {
-          key = "m";
-          command = "show_media_library";
-        }
-        {
-          key = "v";
-          command = "show_visualizer";
-        }
-        {
-          key = "n";
-          command = "next_found_item";
-        }
-        {
-          key = "N";
-          command = "previous_found_item";
-        }
-        {
-          key = ".";
-          command = "show_lyrics";
-        }
-      ];
-      settings = {
-        visualizer_data_source = "/tmp/mpd.fifo";
-        visualizer_output_name = "Visualizer feed";
-        visualizer_in_stereo = "yes";
-        visualizer_type = "spectrum";
-        visualizer_look = "||";
-        visualizer_color = "159";
-        browser_sort_mode = "name";
-        browser_sort_format = "{%A - }{%t}|{%f {(%l)}}";
-        autocenter_mode = "yes";
-        centered_cursor = "yes";
-        progressbar_look = "__";
-        user_interface = "alternative";
-        startup_screen = "visualizer";
-        startup_slave_screen = "playlist";
-        startup_slave_screen_focus = "yes";
-        locked_screen_width_part = "45";
-        external_editor = "$EDITOR";
-      };
-    };
-
     mpv = {
       enable = true;
       package = (
@@ -804,6 +733,7 @@
       playlistDirectory = /. + "${userSettings.homeDirectory}/.config/mpd/playlists";
       dataDir = /. + "${userSettings.homeDirectory}/.config/mpd/state";
       network = {
+        listenAddress = "/tmp/mpd_socket";
         port = 6600;
       };
       extraConfig = ''

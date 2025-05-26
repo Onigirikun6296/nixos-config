@@ -214,7 +214,7 @@ in {
         "float,class:(foot-scratchpad)"
         "float,class:(agenda-scratchpad)"
         "float,class:(mail-scratchpad)"
-        "float,class:(ncmpcpp-scratchpad)"
+        "float,class:(rmpc-scratchpad)"
         "float,class:(org.freedesktop.impl.portal.desktop.kde)"
         "move cursor -50% -50%,title:^(new page — hydrus client)(.*)$"
         "float, title:^(yomichad)$"
@@ -239,7 +239,7 @@ in {
           " , XF86AudioLowerVolume, exec, ~/.scripts/changeVolume -5%"
           " , XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
           " $mod,grave,exec,pypr toggle term"
-          " $mod,n,exec,pypr toggle ncmpcpp"
+          " $mod,n,exec,pypr toggle rmpc"
           " $mod,m,exec,pypr toggle mail"
           " $mod,u,exec,pypr show unicode"
           " $mod,a,exec,pypr toggle agenda"
@@ -302,12 +302,12 @@ in {
         size = "50% 50%";
         max_size = "2900px 100%";
       };
-      ncmpcpp = {
+      rmpc = {
         animation = "fromTop";
-        command = "${userSettings.term} -a ncmpcpp-scratchpad ncmpcpp";
-        class = "ncmpcpp-scratchpad";
-        position = "20% 29px";
-        size = "60% 50%";
+        command = "${userSettings.term} -a rmpc-scratchpad ~/.scripts/tmux-music-scratchpad.sh";
+        class = "rmpc-scratchpad";
+        position = "15% 29px";
+        size = "70% 60%";
         max_size = "2900px 100%";
       };
       mail = {
