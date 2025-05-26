@@ -715,17 +715,17 @@
   services = {
     mako = {
       enable = true;
-      anchor = "top-right";
-      layer = "overlay";
-      backgroundColor = "#282A36";
-      borderColor = "#FFFFFF";
-      defaultTimeout = 10000;
-      iconPath = "${pkgs.kdePackages.oxygen-icons}/share/icons/oxygen/base";
-      font = "${userSettings.mainFont} 10";
-      format = ''<b>%s</b>\n%b'';
-      extraConfig = ''
-        on-button-middle=invoke-action middle
-      '';
+      settings = {
+        anchor = "top-right";
+        layer = "overlay";
+        background-color = "#282A36";
+        border-color = "#FFFFFF";
+        default-timeout = 10000;
+        icon-path = "${pkgs.kdePackages.oxygen-icons}/share/icons/oxygen/base";
+        font = "${userSettings.mainFont} 10";
+        format = ''<b>%s</b>\n%b'';
+        on-button-middle = "invoke-action middle";
+      };
     };
 
     mpd = {
