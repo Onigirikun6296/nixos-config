@@ -140,7 +140,8 @@
     ]);
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     fcitx5.addons = [
       pkgs-stable.fcitx5-mozc
       pkgs.fcitx5-material-color
