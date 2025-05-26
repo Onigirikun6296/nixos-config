@@ -102,9 +102,7 @@
       mpc-cli
       octave
       pinentry-qt
-      (vesktop.override {
-        electron = pkgs-stable.electron;
-      })
+      vesktop
       swayimg
       socat
       comma
@@ -878,7 +876,6 @@
 
     '';
 
-    ".config/vesktop/themes/main.css".source = "${vencord_theme.main}";
     ".config/vesktop/themes/unrounding.css".source = "${vencord_theme.unrounding}";
 
     ".config/swayimg/config".text = lib.generators.toINI {} {
