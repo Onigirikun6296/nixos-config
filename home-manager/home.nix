@@ -64,6 +64,7 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
+      mednafen
       cava
       weechat
       rsshub
@@ -1045,6 +1046,7 @@
     SHELL = userSettings.shell;
     TERMINAL = "${userSettings.term}";
     GTK_USE_PORTAL = "1";
+    MEDNAFEN_HOME = "${userSettings.homeDirectory}/.config/mednafen";
   };
 
   systemd.user.services = {
