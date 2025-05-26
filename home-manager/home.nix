@@ -65,7 +65,9 @@
       #   echo "Hello, ${config.home.username}!"
       # '')
       weechat
+      rsshub
       rmpc
+      fluent-reader
       libnotify
       nil
       waybar
@@ -829,6 +831,15 @@
         icon = "hydrus-client";
         terminal = false;
       };
+      fluent-reader = {
+        name = "Fluent Reader";
+        exec = "fluent-reader --no-sandbox %U --disable-gpu-driver-bug-workarounds";
+        terminal = false;
+        type = "Application";
+        icon = "fluent-reader";
+        categories = ["Utility"];
+        comment = "Modern desktop RSS reader";
+      };
       pavucontrol-qt = {
         exec = "env QT_QPA_PLATFORMTHEME=qt6ct pavucontrol-qt";
         name = "PulseAudio Volume Control";
@@ -1034,6 +1045,7 @@
     EDITOR = "${pkgs.neovim}/bin/nvim";
     SHELL = userSettings.shell;
     TERMINAL = "${userSettings.term}";
+    GTK_USE_PORTAL = "1";
   };
 
   systemd.user.services = {
@@ -1043,6 +1055,16 @@
       Service = {
         Type = "oneshot";
         ExecStart = "${pkgs.neovim}/bin/nvim -u NONE --noplugin --headless -c 'lua require(\"partials.org_cron\")'";
+      };
+      Install.WantedBy = ["default.target"];
+    };
+    rsshub = {
+      Unit.Description = "Start instance of RSSHub";
+
+      Service = {
+        Environment = [
+        ];
+        ExecStart = "${pkgs.rsshub}/bin/rsshub";
       };
       Install.WantedBy = ["default.target"];
     };
