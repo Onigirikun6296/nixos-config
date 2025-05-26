@@ -33,6 +33,15 @@
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
   nixpkgs.overlays = [
+    (final: prev: {
+      weechat = prev.weechat.override {
+        configure = {availablePlugins, ...}: {
+          scripts = with prev.weechatScripts; [
+            weechat-notify-send
+          ];
+        };
+      };
+     })
   ];
 
   # The home.packages option allows you to install Nix packages into your
@@ -55,7 +64,7 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
-      irssi
+      weechat
       libnotify
       nil
       waybar
