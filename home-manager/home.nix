@@ -64,6 +64,7 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
+      cava
       weechat
       rsshub
       rmpc
