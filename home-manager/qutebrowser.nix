@@ -5,6 +5,28 @@
   self,
   ...
 }: let
+  pachikarui = pkgs.python3Packages.buildPythonPackage {
+    pname = "puchikarui";
+    version = "0.2a2.post5";
+    src = pkgs.fetchFromGitHub {
+      owner = "letuananh";
+      repo = "puchikarui";
+      rev = "6616d6fb9f131f2489ee3067fd981a19943e095f";
+      hash = "sha256-Qct6Pdl3Li95f3LFZytmmJdQRTE3jGvLIOEtYG+p4Mo=";
+    };
+    pyproject = true;
+    build-system = [pkgs.python3Packages.setuptools];
+  };
+  chirptext = pkgs.python3Packages.buildPythonPackage rec {
+    pname = "chirptext";
+    version = "0.1.2";
+    src = pkgs.python3Packages.fetchPypi {
+      inherit pname version;
+      hash = "sha256-ZDycEVCPUJs3JX4/OmKaZowJCK5fWC17nxMSNKc3kwM=";
+    };
+    pyproject = true;
+    build-system = [pkgs.python3Packages.setuptools];
+  };
   yomichad = pkgs.python3Packages.buildPythonPackage {
     name = "yomichad";
     src = pkgs.fetchFromGitHub {
@@ -15,28 +37,7 @@
     };
     propagatedBuildInputs = with pkgs.python3Packages; [
       pyqt6
-      (buildPythonPackage {
-        pname = "puchikarui";
-        version = "0.2a2.post5";
-        src = pkgs.fetchFromGitHub {
-          owner = "letuananh";
-          repo = "puchikarui";
-          rev = "6616d6fb9f131f2489ee3067fd981a19943e095f";
-          hash = "sha256-Qct6Pdl3Li95f3LFZytmmJdQRTE3jGvLIOEtYG+p4Mo=";
-        };
-
-        doCheck = false;
-      })
-      (buildPythonPackage rec {
-        pname = "chirptext";
-        version = "0.1.2";
-        src = fetchPypi {
-          inherit pname version;
-          hash = "sha256-ZDycEVCPUJs3JX4/OmKaZowJCK5fWC17nxMSNKc3kwM=";
-        };
-
-        doCheck = false;
-      })
+      xlib
       (buildPythonPackage rec {
         pname = "jamdict";
         version = "0.1a11.post2";
@@ -44,8 +45,13 @@
           inherit pname version;
           hash = "sha256-+7VN49WOzbm1NJiuhzq2UZMSyGvISKl2nZKxsjjUyRQ=";
         };
+        pyproject = true;
+        build-system = [
+          pkgs.python3Packages.setuptools
+          pachikarui
+          chirptext
+        ];
 
-        doCheck = false;
       })
       (buildPythonPackage {
         pname = "jamdict-data";
@@ -56,13 +62,16 @@
           rev = "f9c39bdfad6d60664d4f56493c4b6702ac7438f9";
           hash = "sha256-2HOSpIcBZ4VSoyHPYL4rGodj0+ADO202/6PgxNDVkg4=";
         };
+        pyproject = true;
+        build-system = [pkgs.python3Packages.setuptools];
 
-        doCheck = false;
       })
+      pachikarui
+      chirptext
     ];
 
-    doCheck = false;
-
+    pyproject = true;
+    build-system = [pkgs.python3Packages.setuptools];
     preBuild = ''
 
       cat > setup.py << EOF
@@ -105,6 +114,7 @@ in {
       t = "https://tenor.com/search/{}-gifs";
       pkgs = "https://search.nixos.org/packages?query={}";
       nwiki = "https://wiki.nixos.org/w/index.php?search={}";
+      sauce = "https://saucenao.com/search.php?url={}";
     };
     aliases = {
       "q" = "close";
