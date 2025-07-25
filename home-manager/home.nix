@@ -889,8 +889,8 @@
         app_id = "swayimg";
       };
       viewer = {
-        window = "#00000000";
-        transparency = "#00000000";
+        window = "#000000FF";
+        transparency = "#000000FF";
         scale = "optimal";
         antialiasing = "no";
         fixed = "yes";
@@ -904,7 +904,7 @@
         cache = 100;
         fill = "yes";
         antialiasing = "no";
-        window = "#00000000";
+        window = "#000000FF";
         background = "#202020";
         select = "#404040";
       };
@@ -938,6 +938,7 @@
         bottom_right = "name,status";
       };
       "keys.viewer" = {
+        Return = "mode gallery";
         F1 = "help";
         Home = "first_file";
         End = "last_file";
@@ -952,7 +953,6 @@
         "Shift+s" = "slideshow";
         s = "animation";
         f = "fullscreen";
-        Return = "mode";
         Left = "step_left 10";
         Right = "step_right 10";
         Up = "step_up 10";
