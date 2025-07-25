@@ -217,7 +217,7 @@
         '';
 
       keymap = {
-        manager = {
+        mgr = {
           prepend_keymap =
             [
               {
