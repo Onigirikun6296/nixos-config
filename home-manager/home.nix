@@ -41,7 +41,18 @@
           ];
         };
       };
-     })
+    })
+    (final: prev: {
+      hydrus = prev.hydrus.overrideAttrs (prev: rec {
+        version = "628";
+        src = pkgs.fetchFromGitHub {
+          owner = "hydrusnetwork";
+          repo = "hydrus";
+          tag = "v${version}";
+          hash = "sha256-4EvIaM2+uBc8IsbJGZqH8eH2OQ/rdAOd3mg4GCZACSk=";
+        };
+      });
+    })
   ];
 
   # The home.packages option allows you to install Nix packages into your
