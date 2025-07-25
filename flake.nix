@@ -111,7 +111,7 @@
       oni = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          nix-index-database.hmModules.nix-index
+          nix-index-database.homeModules.nix-index
           ./home-manager/home.nix
           ./home-manager/email.nix
         ];
