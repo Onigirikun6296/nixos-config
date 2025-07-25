@@ -12,7 +12,12 @@
   ...
 }: {
   nix = {
-    settings.experimental-features = ["nix-command" "flakes"];
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      substituters = [
+        "https://cache.nixos.org"
+      ];
+    };
 
     gc = {
       automatic = true;
