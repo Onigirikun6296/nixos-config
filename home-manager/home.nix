@@ -75,6 +75,7 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
+      ani-cli
       fselect
       dust
       mednafen
