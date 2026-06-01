@@ -6,14 +6,42 @@
   lib,
   inputs,
   pkgs,
-  pkgs-stable,
   systemSettings,
   userSettings,
   ...
-}: {
+}:
+# let
+#   coreutils-full-name =
+#     "coreuutils-full"
+#     + builtins.concatStringsSep "" (
+#       builtins.genList (_: "_") (builtins.stringLength pkgs.coreutils-full.version)
+#     );
+#
+#   coreutils-name =
+#     "coreuutils"
+#     + builtins.concatStringsSep "" (
+#       builtins.genList (_: "_") (builtins.stringLength pkgs.coreutils.version)
+#     );
+#
+#   findutils-name =
+#     "finduutils"
+#     + builtins.concatStringsSep "" (
+#       builtins.genList (_: "_") (builtins.stringLength pkgs.findutils.version)
+#     );
+#
+#   diffutils-name =
+#     "diffuutils"
+#     + builtins.concatStringsSep "" (
+#       builtins.genList (_: "_") (builtins.stringLength pkgs.diffutils.version)
+#     );
+# in
+{
   nix = {
     settings = {
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       substituters = [
         "https://cache.nixos.org"
       ];
@@ -27,12 +55,20 @@
     registry = {
       nixpkgs.flake = inputs.nixpkgs;
     };
-    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 5;
+  boot.loader.systemd-boot.editor = false;
   boot.loader.efi.canTouchEfiVariables = false;
+  boot.loader.systemd-boot.edk2-uefi-shell.enable = true;
+
+  boot.kernelParams = [
+    "efi_no_storage_paranoia"
+    "pstore.backend=none"
+  ];
 
   networking.hostName = systemSettings.hostname; # Define your hostname.
   # Pick only one of the below networking options.
@@ -63,11 +99,24 @@
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # hardware.pulseaudio.enable = true;
+  hardware.opentabletdriver.enable = true;
+  hardware.uinput.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    extraConfig.pipewire-pulse = {
+      "switch-on-connect" = {
+        "pulse.cmd" = [
+          {
+            cmd = "load-module";
+            args = "module-switch-on-connect";
+          }
+        ];
+      };
+    };
   };
 
   services = {
@@ -76,20 +125,29 @@
     udisks2.enable = true;
   };
 
+  services.gnome.gnome-keyring.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${userSettings.username} = {
     isNormalUser = true;
-    extraGroups = ["wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "podman"
+      "input"
+      "uinput"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
     ];
   };
 
   virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [userSettings.username];
+
+  users.extraGroups.vboxusers.members = [ userSettings.username ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -101,6 +159,7 @@
     gcc
     foot
     libsixel
+    libsecret
     pulseaudio
     pavucontrol
     bottom
@@ -113,7 +172,8 @@
     nvd
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
     builtins.elem (lib.getName pkg) [
       "hplip"
       "hplipWithPlugin"
@@ -127,7 +187,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember-session";
         user = "greeter";
       };
     };
@@ -143,7 +203,7 @@
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     nerd-fonts.hack
     uw-ttyp0
   ];
@@ -178,6 +238,48 @@
       ${pkgs.nvd}/bin/nvd --nix-bin-dir=${pkgs.nix}/bin diff /run/current-system/ "$systemConfig"
     '';
   };
+
+  # system.replaceDependencies.replacements = [
+  #   # coreutils
+  #   {
+  #     # system
+  #     oldDependency = pkgs.coreutils-full;
+  #     newDependency = pkgs.symlinkJoin {
+  #       # Make the name length match so it builds
+  #       name = coreutils-full-name;
+  #       paths = [ pkgs.uutils-coreutils-noprefix ];
+  #     };
+  #   }
+  #   {
+  #     # applications
+  #     oldDependency = pkgs.coreutils;
+  #     newDependency = pkgs.symlinkJoin {
+  #       # Make the name length match so it builds
+  #       name = coreutils-name;
+  #       paths = [ pkgs.uutils-coreutils-noprefix ];
+  #     };
+  #   }
+  #   # findutils
+  #   {
+  #     # applications
+  #     oldDependency = pkgs.findutils;
+  #     newDependency = pkgs.symlinkJoin {
+  #       # Make the name length match so it builds
+  #       name = findutils-name;
+  #       paths = [ pkgs.uutils-findutils ];
+  #     };
+  #   }
+  #   # diffutils
+  #   {
+  #     # applications
+  #     oldDependency = pkgs.diffutils;
+  #     newDependency = pkgs.symlinkJoin {
+  #       # Make the name length match so it builds
+  #       name = diffutils-name;
+  #       paths = [ pkgs.uutils-diffutils ];
+  #     };
+  #   }
+  # ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

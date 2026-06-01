@@ -1,14 +1,49 @@
 {
+  config,
   pkgs,
-  pkgs-stable,
+  pkgs-unstable,
   userSettings,
+  systemSettings,
   ...
 }: let
-  display = "LVDS-1";
-  resolution = "1600x900";
-  wallpaper = "${userSettings.homeDirectory}/Pictures/Wallpapers/1681683576779646.jpg";
-  lock_wallpaper = "${userSettings.homeDirectory}/Pictures/Wallpapers/1681683576779646.jpg";
+  displays = {
+    Sagittarius = {
+      monitor = "LVDS-1";
+      resolution = "1600x900";
+    };
+    Orion = {
+      monitor = "HDMI-A-1";
+      resolution = "1920x1080";
+    };
+    default = {
+      monitor = "";
+      resolution = "preferred";
+    };
+  };
+  getDisplay = hostname:
+    if displays ? ${hostname}
+    then displays.${hostname}
+    else displays.default;
+
+  display = getDisplay systemSettings.hostname;
+
+  wallpaper = userSettings.wallpaper;
+  lock_wallpaper = userSettings.lock_wallpaper;
+  term = "${pkgs.foot}/bin/foot";
+  file-manager = "${pkgs.kdePackages.dolphin}/bin/dolphin";
+  cursor = pkgs.fetchgit {
+      url = "https://github.com/OtaK/McMojave-hyprcursor";
+      hash = "sha256-+Qo88EJC0nYDj9FDsNtoA4nttck81J9CQFgtrP4eBjk=";
+  };
 in {
+  home.file.".local/share/icons/McMojave/" = {
+      source = "${cursor}/dist/";
+      recursive = true;
+  };
+  home.sessionVariables = {
+      HYPRCURSOR_THEME = "McMojave";
+      HYPRCURSOR_SIZE = "32";
+  };
   programs = {
     hyprlock = {
       enable = true;
@@ -90,16 +125,16 @@ in {
             font_family = userSettings.jpFont;
             position = "0, 10";
             halign = "center";
-            valign = "borrom";
+            valign = "bottom";
           }
           {
-            text = ''cmd[update:1000] echo "$(if [  -n "$(${pkgs.mpc-cli}/bin/mpc  2>/dev/null)" ]; then echo "🎧 Now playing: $(${pkgs.mpc-cli}/bin/mpc | head -n 1)"; fi)"'';
+            text = ''cmd[update:1000] echo "$(if [  -n "$(${pkgs-unstable.rmpc}/bin/rmpc song 2>/dev/null)" ]; then echo "🎧 Now playing: $(${pkgs-unstable.rmpc}/bin/rmpc song | jq '.metadata | .artist, .album ' | xargs printf \"%s-%s\")"; fi)"'';
             color = "rgba(250, 250, 250, 1.0)";
             font_size = 12;
             font_family = userSettings.jpFont;
             position = "0, 40";
             halign = "center";
-            valign = "borrom";
+            valign = "bottom";
           }
         ];
       };
@@ -136,7 +171,7 @@ in {
         ipc = "on";
         splash = "false";
         preload = [wallpaper];
-        wallpaper = ["${display},${wallpaper}"];
+        wallpaper = ["${display.monitor},${wallpaper}"];
       };
     };
   };
@@ -144,7 +179,10 @@ in {
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      monitor = "${display},${resolution},0x0,1";
+      monitor = [
+        "${display.monitor},${display.resolution},0x0,1"
+        "HDMI-A-1,1920x1080,auto-left,1"
+      ];
       exec-once = [
         "pypr"
         "hyprland-autoname-workspaces"
@@ -162,11 +200,13 @@ in {
         repeat_rate = "60";
         repeat_delay = "300";
       };
-      device = {
-        name = "ps/2-generic-mouse";
-        accel_profile = "flat";
-        sensitivity = "+1.0";
-      };
+      device = [
+        {
+          name = "ps/2-generic-mouse";
+          accel_profile = "flat";
+          sensitivity = "+1.0";
+        }
+      ];
       general = {
         gaps_in = "5";
         gaps_out = "10";
@@ -208,6 +248,10 @@ in {
         swallow_regex = "^(foot)$";
         vfr = "true";
       };
+      workspace = [
+        "w[1-9], monitor:${display.monitor}, default:true"
+        "10, monitor:HDMI-A-1, default:true"
+      ];
       windowrule = [
         "float,title:^(hydrus client booting)$ "
         "float,title:^(hydrus client exiting)(.*)$"
@@ -224,12 +268,13 @@ in {
       bind =
         [
           " $mod SHIFT, Q, killactive, "
-          " $mod SHIFT, Return, exec, ${userSettings.term} tmux"
+          " $mod SHIFT, Return, exec, ${term} tmux"
           " $mod SHIFT, Space, togglefloating, "
-          " $mod SHIFT, G, exec, ${userSettings.term} btm"
-          " $mod SHIFT, D, exec, ${userSettings.file-manager}"
-          " $mod, Tab, exec, ${userSettings.term} yazi "
-          " $mod, Print, exec, $HOME/.scripts/prtsc.sh"
+          " $mod SHIFT, G, exec, ${term} btm"
+          " $mod SHIFT, D, exec, ${file-manager}"
+          " $mod, Tab, exec, ${term} yazi "
+          " $mod, Print, exec, $HOME/.scripts/prtsc.sh active"
+          " $mod SHIFT, Print, exec, $HOME/.scripts/prtsc.sh area"
           " $mod SHIFT, minus, exec, $HOME/.scripts/gaps.sh dec"
           " $mod SHIFT, equal, exec, $HOME/.scripts/gaps.sh inc"
           " $mod, equal, exec, $HOME/.scripts/gaps.sh reset"
@@ -296,7 +341,7 @@ in {
     scratchpads = {
       term = {
         animation = "fromTop";
-        command = "${userSettings.term} -a foot-scratchpad tmux new -A -s scratch";
+        command = "${term} -a foot-scratchpad tmux new -A -s scratch";
         class = "foot-scratchpad";
         position = "25% 29px";
         size = "50% 50%";
@@ -304,7 +349,7 @@ in {
       };
       rmpc = {
         animation = "fromTop";
-        command = "${userSettings.term} -a rmpc-scratchpad ~/.scripts/tmux-music-scratchpad.sh";
+        command = "${term} -a rmpc-scratchpad rmpc";
         class = "rmpc-scratchpad";
         position = "15% 29px";
         size = "70% 60%";
@@ -312,7 +357,7 @@ in {
       };
       mail = {
         animation = "fromTop";
-        command = "${userSettings.term} -a mail-scratchpad neomutt";
+        command = "${term} -a mail-scratchpad neomutt";
         class = "mail-scratchpad";
         position = "20% 29px";
         size = "60% 60%";
@@ -320,7 +365,7 @@ in {
       };
       agenda = {
         animation = "fromTop";
-        command = "${userSettings.term} -a agenda-scratchpad nvim ~/orgfiles/agenda.org";
+        command = "${term} -a agenda-scratchpad nvim ~/orgfiles/agenda.org";
         class = "agenda-scratchpad";
         position = "25% 29px";
         size = "50% 50%";

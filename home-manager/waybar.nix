@@ -75,6 +75,8 @@
         };
 
         mpd = {
+          server = "/tmp/mpd_socket";
+          port = 6600;
           format = "{stateIcon} {randomIcon}{repeatIcon}{singleIcon} {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})";
           title-len = 50;
           format-disconnected = "Disconnected ";
@@ -112,7 +114,7 @@
         * {
           border: none;
           font-family: "${userSettings.mainFont}", ${userSettings.jpFont};
-          font-size: 14px;
+          font-size: 16px;
         }
 
         tooltip {

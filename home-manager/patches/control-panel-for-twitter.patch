@@ -1,22 +1,24 @@
 --- a/script.js
 +++ b/script.js
-@@ -74,13 +74,13 @@
-   hideBlueReplyFollowedBy: false,
-   hideBlueReplyFollowing: false,
+@@ -61,7 +61,7 @@
+   followButtonStyle: 'monochrome',
+   hideAdsNav: true,
    hideBookmarkButton: false,
 -  hideBookmarkMetrics: true,
 +  hideBookmarkMetrics: false,
    hideBookmarksNav: false,
+   hideChatNav: false,
    hideCommunitiesNav: false,
-   hideComposeTweet: false,
+@@ -70,7 +70,7 @@
+   hideCreatorStudioNav: true,
    hideExplorePageContents: true,
    hideFollowingMetrics: true,
 -  hideForYouTimeline: true,
 +  hideForYouTimeline: false,
    hideGrokNav: true,
+   hideGrokTweets: false,
    hideInlinePrompts: true,
-   hideJobsNav: true,
-@@ -104,7 +104,7 @@
+@@ -97,7 +97,7 @@
    hideTwitterBlueUpsells: true,
    hideUnavailableQuoteTweets: true,
    hideVerifiedNotificationsTab: true,
@@ -25,3 +27,19 @@
    hideWhoToFollowEtc: true,
    listRetweets: 'ignore',
    mutableQuoteTweets: true,
+@@ -123,7 +123,7 @@
+   tweakNewLayout: false,
+   tweakQuoteTweetsPage: true,
+   twitterBlueChecks: 'replace',
+-  unblurSensitiveContent: false,
++  unblurSensitiveContent: true,
+   uninvertFollowButtons: true,
+   // Experiments
+   customCss: '',
+@@ -7517,4 +7517,4 @@
+ main()
+ //#endregion
+ 
+-}()
+\ No newline at end of file
++}()

@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   primary = {
     name = "gmail";
     address = "<enter-gmail-here>@gmail.com";
@@ -20,12 +24,11 @@ in {
         from subprocess import check_output
 
         def get_pass(account):
-            return check_output("${pkgs.pass}/bin/pass " + account, shell = True).splitlines()[0]
-
+            f = open("${config.sops.secrets.gmail.path}")
+            return f.read()
 
         if __name__ == "__main__":
-            print(get_pass())
-
+            print("Hello world")
       '';
   };
 
@@ -46,7 +49,7 @@ in {
         })
         emails);
   in
-    {} // createEmailServices [primary.name secondary.name];
+    {} // createEmailServices [primary.name];
 
   accounts.email.accounts = {
     "${primary.name}" = {
