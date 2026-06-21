@@ -89,7 +89,7 @@
       # '')
       fractal
       drawpile
-      melonDS
+      melonds
       bat
       godot
       ani-cli
@@ -138,13 +138,11 @@
       comma
       chafa
       lxqt.pavucontrol-qt
-      libsForQt5.kservice
       libsForQt5.qt5ct
       pyprland
     ])
     ++ (with pkgs-unstable; [
       rmpc
-      swayimg
       dolphin-emu
       # hydrus
     ])
@@ -169,6 +167,7 @@
       systemsettings
       qtstyleplugin-kvantum
       qtimageformats
+      plasma-workspace
     ]);
 
   i18n.inputMethod = {
@@ -704,7 +703,7 @@
           command = "paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/completion-partial.oga";
           command-focused = "yes";
         };
-        colors = {
+        colors-dark = {
           # alpha=1.0
           background = "2b282d";
           foreground = "e3e1e4";
@@ -734,19 +733,11 @@
 
     mpv = {
       enable = true;
-      package = (
-        pkgs.mpv-unwrapped.wrapper {
-          scripts = with pkgs.mpvScripts; [
-            mpv-webm
-            uosc
-            thumbfast
-          ];
-          mpv = pkgs.mpv-unwrapped.override {
-            sixelSupport = false;
-            waylandSupport = true;
-          };
-        }
-      );
+      scripts = with pkgs.mpvScripts; [
+        mpv-webm
+        uosc
+        thumbfast
+      ];
       config = {
         geometry = "50%:50%";
         keep-open = true;
@@ -827,6 +818,140 @@
             ];
           }
         ];
+      };
+    };
+    swayimg = {
+      enable = true;
+      settings = {
+        general = {
+          mode = "viewer";
+          position = "auto";
+          # size = "parent";
+          app_id = "swayimg";
+        };
+        viewer = {
+          window = "#000000FF";
+          transparency = "#000000FF";
+          scale = "optimal";
+          antialiasing = "none";
+          history = 1;
+          preload = 1;
+          loop = "yes";
+        };
+        gallery = {
+          size = 120;
+          cache = 100;
+          fill = "yes";
+          antialiasing = "none";
+          window = "#000000FF";
+          background = "#202020";
+          select = "#404040";
+        };
+        list = {
+          order = "mtime";
+          reverse = "yes";
+          recursive = "no";
+          all = "yes";
+        };
+        font = {
+          name = "${userSettings.jpFont}";
+          size = 12;
+          color = "#cccccc";
+          shadow = "#000000a0";
+        };
+        info = {
+          show = "yes";
+          info_timeout = 5;
+          status_timeout = 3;
+        };
+        "info.viewer" = {
+          top_left = "name,format,filesize,imagesize,exif";
+          top_right = "index";
+          bottom_left = "scale,frame";
+          bottom_right = "status";
+        };
+        "info.gallery" = {
+          top_left = "none";
+          top_right = "none";
+          bottom_left = "none";
+          bottom_right = "name,status";
+        };
+        "keys.viewer" = {
+          Return = "mode gallery";
+          F1 = "help";
+          Home = "first_file";
+          End = "last_file";
+          p = "prev_file";
+          n = "next_file";
+          Space = "next_file";
+          "Shift+d" = "prev_dir";
+          d = "next_dir";
+          "Shift+o" = "prev_frame";
+          o = "next_frame";
+          c = "skip_file";
+          s = "animation";
+          f = "fullscreen";
+          Left = "step_left 10";
+          Right = "step_right 10";
+          Up = "step_up 10";
+          Down = "step_down 10";
+          h = "step_left 10";
+          l = "step_right 10";
+          k = "step_up 10";
+          j = "step_down 10";
+          Equal = "zoom real";
+          "Shift+Plus" = "zoom +10";
+          Minus = "zoom -10";
+          w = "zoom width";
+          "Shift+w" = "zoom height";
+          z = "zoom fit";
+          "Shift+z" = "zoom fill";
+          "0" = "zoom real";
+          Backspace = "zoom optimal";
+          "Shift+less" = "rotate_left";
+          "Shift+greater" = "rotate_right";
+          m = "flip_vertical";
+          "Shift+m" = "flip_horizontal";
+          "Shift+bar" = "flip_horizontal";
+          a = "antialiasing";
+          r = "reload";
+          i = "info";
+          e = "exec echo \"Image: %\"";
+          Escape = "exit";
+          q = "exit";
+          ScrollLeft = "step_left 5";
+          ScrollRight = "step_right 5";
+          ScrollUp = "step_up 5";
+          ScrollDown = "step_down 5";
+          "Ctrl+ScrollUp" = "zoom +10";
+          "Ctrl+ScrollDown" = "zoom -10";
+          "Shift+ScrollUp" = "prev_file";
+          "Shift+ScrollDown" = "next_file";
+          "Alt+ScrollUp" = "prev_frame";
+          "Alt+ScrollDown" = "next_frame";
+        };
+        "keys.gallery" = {
+          Home = "first_file";
+          End = "last_file";
+          p = "prev_file";
+          n = "next_file";
+          Space = "next_file";
+          Left = "step_left";
+          Right = "step_right";
+          Up = "step_up";
+          Down = "step_down";
+          h = "step_left";
+          l = "step_right";
+          k = "step_up";
+          j = "step_down";
+          a = "antialiasing";
+          r = "reload";
+          i = "info";
+          e = "exec echo \"Image: %\"";
+          Escape = "exit";
+          q = "exit";
+        };
+
       };
     };
   };
@@ -1049,136 +1174,6 @@
       pinentry-program ${pkgs.pinentry-qt}/bin/pinentry-qt
 
     '';
-    ".config/swayimg/config".text = lib.generators.toINI { } {
-      general = {
-        mode = "viewer";
-        position = "auto";
-        # size = "parent";
-        app_id = "swayimg";
-      };
-      viewer = {
-        window = "#000000FF";
-        transparency = "#000000FF";
-        scale = "optimal";
-        antialiasing = "none";
-        history = 1;
-        preload = 1;
-        loop = "yes";
-      };
-      gallery = {
-        size = 120;
-        cache = 100;
-        fill = "yes";
-        antialiasing = "none";
-        window = "#000000FF";
-        background = "#202020";
-        select = "#404040";
-      };
-      list = {
-        order = "mtime";
-        reverse = "yes";
-        recursive = "no";
-        all = "yes";
-      };
-      font = {
-        name = "${userSettings.jpFont}";
-        size = 12;
-        color = "#cccccc";
-        shadow = "#000000a0";
-      };
-      info = {
-        show = "yes";
-        info_timeout = 5;
-        status_timeout = 3;
-      };
-      "info.viewer" = {
-        top_left = "name,format,filesize,imagesize,exif";
-        top_right = "index";
-        bottom_left = "scale,frame";
-        bottom_right = "status";
-      };
-      "info.gallery" = {
-        top_left = "none";
-        top_right = "none";
-        bottom_left = "none";
-        bottom_right = "name,status";
-      };
-      "keys.viewer" = {
-        Return = "mode gallery";
-        F1 = "help";
-        Home = "first_file";
-        End = "last_file";
-        p = "prev_file";
-        n = "next_file";
-        Space = "next_file";
-        "Shift+d" = "prev_dir";
-        d = "next_dir";
-        "Shift+o" = "prev_frame";
-        o = "next_frame";
-        c = "skip_file";
-        s = "animation";
-        f = "fullscreen";
-        Left = "step_left 10";
-        Right = "step_right 10";
-        Up = "step_up 10";
-        Down = "step_down 10";
-        h = "step_left 10";
-        l = "step_right 10";
-        k = "step_up 10";
-        j = "step_down 10";
-        Equal = "zoom real";
-        "Shift+Plus" = "zoom +10";
-        Minus = "zoom -10";
-        w = "zoom width";
-        "Shift+w" = "zoom height";
-        z = "zoom fit";
-        "Shift+z" = "zoom fill";
-        "0" = "zoom real";
-        Backspace = "zoom optimal";
-        "Shift+less" = "rotate_left";
-        "Shift+greater" = "rotate_right";
-        m = "flip_vertical";
-        "Shift+m" = "flip_horizontal";
-        "Shift+bar" = "flip_horizontal";
-        a = "antialiasing";
-        r = "reload";
-        i = "info";
-        e = "exec echo \"Image: %\"";
-        Escape = "exit";
-        q = "exit";
-        ScrollLeft = "step_left 5";
-        ScrollRight = "step_right 5";
-        ScrollUp = "step_up 5";
-        ScrollDown = "step_down 5";
-        "Ctrl+ScrollUp" = "zoom +10";
-        "Ctrl+ScrollDown" = "zoom -10";
-        "Shift+ScrollUp" = "prev_file";
-        "Shift+ScrollDown" = "next_file";
-        "Alt+ScrollUp" = "prev_frame";
-        "Alt+ScrollDown" = "next_frame";
-      };
-      "keys.gallery" = {
-        Home = "first_file";
-        End = "last_file";
-        p = "prev_file";
-        n = "next_file";
-        Space = "next_file";
-        Left = "step_left";
-        Right = "step_right";
-        Up = "step_up";
-        Down = "step_down";
-        h = "step_left";
-        l = "step_right";
-        k = "step_up";
-        j = "step_down";
-        a = "antialiasing";
-        r = "reload";
-        i = "info";
-        e = "exec echo \"Image: %\"";
-        Escape = "exit";
-        q = "exit";
-      };
-    };
 
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -1229,6 +1224,7 @@
       ANDROID_USER_HOME = "${config.xdg.dataHome}/android";
       PYTHON_HISTORY = "${config.xdg.stateHome}/python_history";
       RENPY_PATH_TO_SAVES = "${config.xdg.dataHome}/renpy";
+      XDG_MENU_PREFIX = "plasma-";
     };
 
   systemd.user.services = {
