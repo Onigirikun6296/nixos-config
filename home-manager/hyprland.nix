@@ -1,11 +1,13 @@
 {
   config,
+  lib,
   pkgs,
   pkgs-unstable,
   userSettings,
   systemSettings,
   ...
-}: let
+}:
+let
   displays = {
     Sagittarius = {
       monitor = "LVDS-1";
@@ -20,10 +22,7 @@
       resolution = "preferred";
     };
   };
-  getDisplay = hostname:
-    if displays ? ${hostname}
-    then displays.${hostname}
-    else displays.default;
+  getDisplay = hostname: if displays ? ${hostname} then displays.${hostname} else displays.default;
 
   display = getDisplay systemSettings.hostname;
 
@@ -32,17 +31,18 @@
   term = "${pkgs.foot}/bin/foot";
   file-manager = "${pkgs.kdePackages.dolphin}/bin/dolphin";
   cursor = pkgs.fetchgit {
-      url = "https://github.com/OtaK/McMojave-hyprcursor";
-      hash = "sha256-+Qo88EJC0nYDj9FDsNtoA4nttck81J9CQFgtrP4eBjk=";
+    url = "https://github.com/OtaK/McMojave-hyprcursor";
+    hash = "sha256-+Qo88EJC0nYDj9FDsNtoA4nttck81J9CQFgtrP4eBjk=";
   };
-in {
+in
+{
   home.file.".local/share/icons/McMojave/" = {
-      source = "${cursor}/dist/";
-      recursive = true;
+    source = "${cursor}/dist/";
+    recursive = true;
   };
   home.sessionVariables = {
-      HYPRCURSOR_THEME = "McMojave";
-      HYPRCURSOR_SIZE = "32";
+    HYPRCURSOR_THEME = "McMojave";
+    HYPRCURSOR_SIZE = "32";
   };
   programs = {
     hyprlock = {
@@ -170,173 +170,260 @@ in {
       settings = {
         ipc = "on";
         splash = "false";
-        preload = [wallpaper];
-        wallpaper = ["${display.monitor},${wallpaper}"];
-      };
-    };
-  };
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    settings = {
-      monitor = [
-        "${display.monitor},${display.resolution},0x0,1"
-        "HDMI-A-1,1920x1080,auto-left,1"
-      ];
-      exec-once = [
-        "pypr"
-        "hyprland-autoname-workspaces"
-        "paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/desktop-login.oga"
-      ];
-      input = {
-        kb_layout = "us";
-        kb_options = "caps:escape";
-        follow_mouse = "1";
-        touchpad = {
-          natural_scroll = "no";
-          disable_while_typing = "true";
-        };
-        sensitivity = "0";
-        repeat_rate = "60";
-        repeat_delay = "300";
-      };
-      device = [
-        {
-          name = "ps/2-generic-mouse";
-          accel_profile = "flat";
-          sensitivity = "+1.0";
-        }
-      ];
-      general = {
-        gaps_in = "5";
-        gaps_out = "10";
-        border_size = "2";
-        "col.active_border" = "rgba(ff0c0fee) rgba(af0f09ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
-        layout = "master";
-      };
-      decoration = {
-        blur = {
-          enabled = true;
-        };
-        shadow = {
-          enabled = true;
-          range = "4";
-          render_power = "3";
-          color = "rgba(1a1a1aee)";
-        };
-      };
-      animations = {
-        enabled = "yes";
-        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-        animation = [
-          "windows, 1, 7, myBezier"
-          "windowsOut, 0, 7, default, popin 80%"
-          "border, 1, 10, default"
-          "borderangle, 1, 8, default"
-          "fade, 0, 7, default"
-          "workspaces, 0, 6, default"
+        preload = [ wallpaper ];
+        wallpaper = [
+          {
+            monitor = display.monitor;
+            path = wallpaper;
+            fit_mode = "cover";
+          }
         ];
       };
-      master = {
-        new_status = "slave";
-        orientation = "left";
-      };
-      misc = {
-        disable_splash_rendering = "true";
-        enable_swallow = "true";
-        swallow_regex = "^(foot)$";
-        vfr = "true";
-      };
-      workspace = [
-        "w[1-9], monitor:${display.monitor}, default:true"
-        "10, monitor:HDMI-A-1, default:true"
-      ];
-      windowrule = [
-        "float,title:^(hydrus client booting)$ "
-        "float,title:^(hydrus client exiting)(.*)$"
-        "float,class:(foot-scratchpad)"
-        "float,class:(agenda-scratchpad)"
-        "float,class:(mail-scratchpad)"
-        "float,class:(rmpc-scratchpad)"
-        "float,class:(org.freedesktop.impl.portal.desktop.kde)"
-        "move cursor -50% -50%,title:^(new page — hydrus client)(.*)$"
-        "float, title:^(yomichad)$"
-        "move cursor -50% -50%, title:^(yomichad)$"
-      ];
-      "$mod" = "SUPER";
-      bind =
-        [
-          " $mod SHIFT, Q, killactive, "
-          " $mod SHIFT, Return, exec, ${term} tmux"
-          " $mod SHIFT, Space, togglefloating, "
-          " $mod SHIFT, G, exec, ${term} btm"
-          " $mod SHIFT, D, exec, ${file-manager}"
-          " $mod, Tab, exec, ${term} yazi "
-          " $mod, Print, exec, $HOME/.scripts/prtsc.sh active"
-          " $mod SHIFT, Print, exec, $HOME/.scripts/prtsc.sh area"
-          " $mod SHIFT, minus, exec, $HOME/.scripts/gaps.sh dec"
-          " $mod SHIFT, equal, exec, $HOME/.scripts/gaps.sh inc"
-          " $mod, equal, exec, $HOME/.scripts/gaps.sh reset"
-          " $mod, F3, exec, hyprlock"
-          " , XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle"
-          " , XF86AudioRaiseVolume, exec, ~/.scripts/changeVolume +5%"
-          " , XF86AudioLowerVolume, exec, ~/.scripts/changeVolume -5%"
-          " , XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
-          " $mod,grave,exec,pypr toggle term"
-          " $mod,n,exec,pypr toggle rmpc"
-          " $mod,m,exec,pypr toggle mail"
-          " $mod,u,exec,pypr show unicode"
-          " $mod,a,exec,pypr toggle agenda"
-          # " $mod,y,exec,pypr toggle youtube"
-          " $mod, R, exec, bemenu-run --fn \"${userSettings.mainFont} 14\" -H 24"
-          " $mod, P, exec, rofi -show-icons -show drun"
-          " $mod, left, movefocus, l"
-          " $mod, right, movefocus, r"
-          " $mod, up, movefocus, u"
-          " $mod, down, movefocus, d"
-          " $mod, h, movefocus, l"
-          " $mod, l, movefocus, r"
-          " $mod, k, layoutmsg, cycleprev"
-          " $mod, j, layoutmsg, cyclenext"
-          " $mod, h, resizeactive, -100 0"
-          " $mod, l, resizeactive, 100 0"
-          " $mod, Return, layoutmsg, swapwithmaster"
-          " $mod SHIFT, k, layoutmsg, swapprev"
-          " $mod SHIFT, j, layoutmsg, swapnext"
-          " $mod SHIFT, f, fullscreen"
-        ]
-        ++ (
-          # workspaces
-          # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-          builtins.concatLists (builtins.genList (
-              x: let
-                ws = let
-                  c = (x + 1) / 10;
-                in
-                  builtins.toString (x + 1 - (c * 10));
-              in [
-                "$mod, ${ws}, workspace, ${toString (x + 1)}"
-                "$mod SHIFT, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
-              ]
-            )
-            10)
-        );
-
-      bindm = [
-        " $mod, mouse:272, movewindow"
-        " $mod, mouse:273, resizewindow"
-      ];
-
-      xwayland = {
-        force_zero_scaling = true;
-      };
     };
   };
 
-  home.file.".config/hypr/pyprland.toml".source = (pkgs.formats.toml {}).generate "pyprland.toml" {
+  wayland.windowManager.hyprland =
+    let
+      lua = lib.generators.mkLuaInline;
+      dsp = {
+        exec = cmd: lua ''hl.dsp.exec_cmd("${cmd}")'';
+        close = lua "hl.dsp.window.close()";
+        exit = lua "hl.dsp.exit()";
+        float = lua ''hl.dsp.window.float({ action = "toggle" })'';
+        fullscreen = lua "hl.dsp.window.fullscreen()";
+        pseudo = lua "hl.dsp.window.pseudo()";
+        layout = msg: lua ''hl.dsp.layout("${msg}")'';
+        focus = dir: lua ''hl.dsp.focus({direction = "${dir}"})'';
+        swap = dir: lua ''hl.dsp.window.swap({direction = "${dir}"})'';
+        focusWorkspace = ws: lua ''hl.dsp.focus({workspace = "${toString ws}"})'';
+        moveToWorkspace = ws: lua ''hl.dsp.window.move({workspace = "${toString ws}", follow = false})'';
+        drag = lua "hl.dsp.window.drag()";
+        resize = lua "hl.dsp.window.resize()";
+        resizeWindow =
+          x: y: lua "hl.dsp.window.resize({x = ${toString x}, y = ${toString y}, relative = true})";
+        sendshortcut = mod: key: lua ''hl.dsp.send_shortcut({ mods = "${mod}", key = "${key}" })'';
+
+      };
+      bind = keys: dispatcher: {
+        _args = [
+          keys
+          dispatcher
+        ];
+      };
+      bindOpts = keys: dispatcher: opts: {
+        _args = [
+          keys
+          dispatcher
+          opts
+        ];
+      };
+      workspaceBinds = lib.concatMap (
+        i:
+        let
+          key = toString (lib.mod i 10);
+        in
+        [
+          (bind "SUPER + ${key}" (dsp.focusWorkspace i))
+          (bind "SUPER + SHIFT + ${key}" (dsp.moveToWorkspace i))
+        ]
+      ) (lib.range 1 10);
+      startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+        pypr &
+        hyprland-autoname-workspaces &
+        paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/desktop-login.oga &
+      '';
+    in
+    {
+      enable = true;
+      configType = "lua";
+      settings = {
+        monitor = [
+          {
+            output = display.monitor;
+            mode = display.resolution;
+            position = "0x0";
+            scale = "1.0";
+          }
+        ];
+        config = {
+
+          general = {
+            gaps_in = 5;
+            gaps_out = 10;
+            border_size = 2;
+
+            col = {
+              active_border = "rgba(ff0c0fee)";
+              inactive_border = "rgb(151515)";
+            };
+            layout = "master";
+          };
+
+          decoration = {
+            blur = {
+              enabled = true;
+            };
+            shadow = {
+              enabled = true;
+              range = 4;
+              render_power = 3;
+              color = "rgba(1a1a1aee)";
+            };
+          };
+
+          animations = {
+            enabled = true;
+          };
+
+          input = {
+            kb_layout = "us";
+            kb_options = "caps:escape";
+            follow_mouse = true;
+            touchpad = {
+              natural_scroll = false;
+              disable_while_typing = true;
+            };
+            sensitivity = 0;
+            repeat_rate = 60;
+            repeat_delay = 300;
+          };
+          device = [
+            {
+              name = "ps/2-generic-mouse";
+              accel_profile = "flat";
+              sensitivity = "+1.0";
+            }
+          ];
+          master = {
+            new_status = "slave";
+            orientation = "left";
+          };
+          misc = {
+            disable_splash_rendering = true;
+            enable_swallow = true;
+            swallow_regex = "^(foot)$";
+            # vfr = "true";
+          };
+        };
+        curve = [
+          {
+            _args = [
+              "myBezier"
+              {
+                type = "bezier";
+                points = lua "{ {0.05, 0.9}, {0.1, 1.05} }";
+              }
+            ];
+          }
+        ];
+
+        animation = [
+          {
+            leaf = "windows";
+            enabled = true;
+            speed = 7;
+            bezier = "myBezier";
+          }
+          {
+            leaf = "windowsOut";
+            enabled = true;
+            speed = 7;
+            bezier = "default";
+            style = "popin 80%";
+          }
+          {
+            leaf = "border";
+            enabled = true;
+            speed = 10;
+            bezier = "default";
+          }
+          {
+            leaf = "borderangle";
+            enabled = true;
+            speed = 8;
+            bezier = "default";
+          }
+          {
+            leaf = "fade";
+            enabled = true;
+            speed = 7;
+            bezier = "default";
+          }
+          {
+            leaf = "workspaces";
+            enabled = false;
+            speed = 6;
+            bezier = "default";
+          }
+        ];
+        on = {
+          _args = [
+            "hyprland.start"
+            (lua ''
+              function()
+                hl.exec_cmd("${startupScript}/bin/start")
+              end'')
+          ];
+        };
+
+        bind = [
+          (bind "SUPER + SHIFT + Q" dsp.close)
+          (bind "SUPER + SHIFT + RETURN" (dsp.exec "${term} tmux"))
+          (bind "SUPER + SHIFT + SPACE" dsp.float)
+          (bind "SUPER + SHIFT + G" (dsp.exec "${term} btm"))
+          (bind "SUPER + SHIFT + D" (dsp.exec "${file-manager}"))
+          (bind "SUPER + TAB" (dsp.exec "${term} yazi"))
+          (bind "SUPER + Print" (dsp.exec "$HOME/.scripts/prtsc.sh active"))
+          (bind "SUPER + SHIFT + Print" (dsp.exec "$HOME/.scripts/prtsc.sh area"))
+          (bind "SUPER + SHIFT + minus" (dsp.exec "$HOME/.scripts/gaps.sh dec"))
+          (bind "SUPER + SHIFT + equal" (dsp.exec "$HOME/.scripts/gaps.sh inc"))
+          (bind "SUPER + equal" (dsp.exec "$HOME/.scripts/gaps.sh reset"))
+          (bind "SUPER + grave" (dsp.exec "pypr toggle term"))
+          (bind "SUPER + n" (dsp.exec "pypr toggle rmpc"))
+          (bind "SUPER + m" (dsp.exec "pypr toggle mail"))
+          (bind "SUPER + u" (dsp.exec "pypr show unicode"))
+          (bind "SUPER + a" (dsp.exec "pypr toggle agenda"))
+          # " SUPER,y,exec,pypr toggle youtube"
+          (bind "SUPER + R" (dsp.exec "bemenu-run --fn \'${userSettings.mainFont} 14\' -H 24"))
+          (bind "SUPER + P" (dsp.exec "rofi -show-icons -show drun"))
+          (bind "SUPER + left" (dsp.focus "left"))
+          (bind "SUPER + right" (dsp.focus "right"))
+          (bind "SUPER + up" (dsp.focus "up"))
+          (bind "SUPER + down" (dsp.focus "down"))
+          (bind "SUPER + k" (dsp.layout "cycleprev"))
+          (bind "SUPER + j" (dsp.layout "cyclenext"))
+          (bind "SUPER + SHIFT + k" (dsp.layout "swapprev"))
+          (bind "SUPER + SHIFT + j" (dsp.layout "swapnext"))
+          (bind "SUPER + RETURN" (dsp.layout "swapwithmaster"))
+          (bind "SUPER + SHIFT + h" (dsp.swap "left"))
+          (bind "SUPER + SHIFT + l" (dsp.swap "right"))
+          (bind "SUPER + SHIFT + k" (dsp.swap "up"))
+          (bind "SUPER + SHIFT + j" (dsp.swap "down"))
+          (bind "SUPER + SHIFT + F" (dsp.fullscreen))
+          (bind "SUPER + F3" (dsp.exec "hyprlock"))
+          (bindOpts "XF86AudioMicMute" (dsp.exec "pactl set-source-mute @DEFAULT_SOURCE@ toggle") {
+            locked = true;
+          })
+          (bindOpts "XF86AudioRaiseVolume" (dsp.exec "~/.scripts/changeVolume +5%") {
+            locked = true;
+            repeating = true;
+          })
+          (bindOpts "XF86AudioLowerVolume" (dsp.exec "~/.scripts/changeVolume -5%") {
+            locked = true;
+            repeating = true;
+          })
+          (bindOpts "SUPER + mouse:272" dsp.drag { mouse = true; })
+          (bindOpts "SUPER + mouse:273" dsp.resize { mouse = true; })
+          (bindOpts "SUPER + h" (dsp.resizeWindow (-100) 0) { repeat = true; })
+          (bindOpts "SUPER + l" (dsp.resizeWindow 100 0) { repeat = true; })
+        ]
+        ++ workspaceBinds;
+      };
+    };
+
+  home.file.".config/pypr/config.toml".source = (pkgs.formats.toml { }).generate "config.toml" {
     pyprland = {
-      plugins = ["scratchpads"];
+      plugins = [ "scratchpads" ];
     };
     scratchpads = {
       term = {
