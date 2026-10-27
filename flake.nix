@@ -106,6 +106,23 @@
           inherit userSettings;
         };
       };
+      Cassiopeia = lib.nixosSystem {
+        inherit system;
+        modules = [
+          disko.nixosModules.disko
+          ./disk-config.nix
+          ./system/configuration.nix
+          ./system/hardware-configuration.nix
+          # ./system/printer.nix
+          ./system/bluetooth.nix
+          ./system/steam.nix
+        ];
+        specialArgs = {
+          inherit inputs;
+          inherit systemSettings;
+          inherit userSettings;
+        };
+      };
       Orion = lib.nixosSystem {
         inherit system;
         modules = [
