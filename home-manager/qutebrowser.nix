@@ -213,14 +213,14 @@ in {
       };
       _4chanX = pkgs.fetchurl {
         url = "https://www.4chan-x.net/builds/4chan-X.user.js";
-        hash = "sha256-+a/PTlxeUzZ9JJwcrSc5R4A7w/8mz0aazis2IyuxHNk=";
+        hash = "sha256-iwlB/uzDkG583Lik4cfy/zmixnc7e8osqWAfCP2q9Sk=";
       };
       control-panel-for-twitter = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/insin/control-panel-for-twitter/master/script.js";
-        hash = "sha256-Y2JN3fq3/sNraaR8fLNYO8g7kwgOy2sxPxJNYNFTBQ4=";
-        postFetch = ''
-          patch -Np1 $out ${self}/home-manager/patches/control-panel-for-twitter.patch
-        '';
+        hash = "sha256-q487V9O4mtVXF/BDlRlzcCQGuJcdhYstEx+mP3qSEMY=";
+        # postFetch = ''
+        #   patch -Np1 $out ${self}/home-manager/patches/control-panel-for-twitter.patch
+        # '';
       };
       return-youtube-dislike = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/Anarios/return-youtube-dislike/refs/heads/main/Extensions/UserScript/Return%20Youtube%20Dislike.user.js";

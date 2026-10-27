@@ -3,7 +3,8 @@
   pkgs,
   pkgs-unstable,
   ...
-}: {
+}:
+{
   programs.nvf = {
     enable = true;
     settings = {
@@ -23,18 +24,20 @@
           conceallevel = 2;
           concealcursor = "nc";
         };
-        maps = {
-          normal = {
-            tt = {
-              desc = "Open Terminal";
-              action = ":split<Bar>terminal<CR>";
-              noremap = true;
-            };
-            "<Esc>" = {
-              action = "<cmd>nohlsearch<CR>";
-            };
-          };
-        };
+        keymaps = [
+          {
+            key = "tt";
+            desc = "Open Terminal";
+            action = ":split<Bar>terminal<CR>";
+            mode = [ "n" ];
+            noremap = true;
+          }
+          {
+            key = "<Esc>";
+            mode = [ "n" ];
+            action = "<cmd>nohlsearch<CR>";
+          }
+        ];
 
         lsp = {
           enable = true;
@@ -78,7 +81,7 @@
             enable = true;
             setupOpts = {
               filetypes = {
-                css = {};
+                css = { };
               };
             };
           };
@@ -100,10 +103,10 @@
             setupOpts = {
               window = {
                 completion = {
-                  cmp.config.window.bordered = {};
+                  cmp.config.window.bordered = { };
                 };
                 documentation = {
-                  cmp.config.window.bordered = {};
+                  cmp.config.window.bordered = { };
                 };
               };
             };
@@ -117,16 +120,10 @@
             enable = true;
           };
         };
-       /* - The option definition `vim.languages.ts.format.package' in `/nix/store/slr706w1a2b41qgs75n7kldwqppmvyfl-source/home-manager/nvim.nix' no longer has any effect; please remove it.
-       `vim.languages.ts.format.package` is removed, please use `vim.formatter.conform-nvim.formatters.<formatter_name>.command` instead.
-
-
-       - The option definition `vim.languages.css.format.package' in `/nix/store/slr706w1a2b41qgs75n7kldwqppmvyfl-source/home-manager/nvim.nix' no longer has any effect; please remove it.
-       `vim.languages.css.format.package` is removed, please use `vim.formatter.conform-nvim.formatters.<formatter_name>.command` instead. */
         formatter = {
-            conform-nvim = {
-                enable = true;
-            };
+          conform-nvim = {
+            enable = true;
+          };
         };
 
         languages = {
@@ -182,70 +179,66 @@
           };
           orgmode = {
             package = pkgs-unstable.vimPlugins.orgmode;
-            setup =
-              /*
-              lua
-              */
-              ''
-                require('orgmode').setup({
-                  org_agenda_files = '~/orgfiles/**/*',
-                  org_default_notes_file = '~/orgfiles/refile.org',
-                  notifications = {
-                    enabled = false,
-                    cron_enabled = true,
-                    repeater_reminder_time = false,
-                    deadline_warning_reminder_time = false,
-                    reminder_time = {1, 5, 10, 60},
-                    deadline_reminder = true,
-                    scheduled_reminder = true,
-                    notifier = function(tasks)
-                      local result = {}
-                      for _, task in ipairs(tasks) do
-                        require('orgmode.utils').concat(result, {
-                          string.format('# %s (%s)', task.category, task.humanized_duration),
-                          string.format('%s %s %s', string.rep('*', task.level), task.todo,
-                                        task.title),
-                          string.format('%s: <%s>', task.type, task.time:to_string())
-                        })
-                      end
-
-                      if not vim.tbl_isempty(result) then
-                        require('orgmode.notifications.notification_popup'):new({
-                          content = result
-                        })
-                      end
-                    end,
-                    cron_notifier = function(tasks)
-                      for _, task in ipairs(tasks) do
-                        local icon =
-                            "${pkgs.kdePackages.oxygen-icons}/share/icons/oxygen/base/64x64/mimetypes/text-calendar.png"
-                        local title = string.format('%s (%s)', task.category,
-                                                    task.humanized_duration)
-                        local subtitle = string.format('%s %s %s', string.rep('*', task.level),
-                                                       task.todo, task.title)
-                        local date = string.format('%s: %s', task.type, task.time:to_string())
-
-                        -- Linux
-                        if vim.fn.executable('notify-send') == 1 then
-                          vim.loop.spawn('notify-send', {
-                            args = {
-                              '-i', icon, string.format('%s\n%s\n%s', title, subtitle, date)
-                            }
-                          })
-                        end
-
-                      end
+            setup = /* lua */ ''
+              require('orgmode').setup({
+                org_agenda_files = '~/orgfiles/**/*',
+                org_default_notes_file = '~/orgfiles/refile.org',
+                notifications = {
+                  enabled = false,
+                  cron_enabled = true,
+                  repeater_reminder_time = false,
+                  deadline_warning_reminder_time = false,
+                  reminder_time = {1, 5, 10, 60},
+                  deadline_reminder = true,
+                  scheduled_reminder = true,
+                  notifier = function(tasks)
+                    local result = {}
+                    for _, task in ipairs(tasks) do
+                      require('orgmode.utils').concat(result, {
+                        string.format('# %s (%s)', task.category, task.humanized_duration),
+                        string.format('%s %s %s', string.rep('*', task.level), task.todo,
+                                      task.title),
+                        string.format('%s: <%s>', task.type, task.time:to_string())
+                      })
                     end
-                  },
-                })
 
-                vim.api.nvim_create_autocmd('BufEnter', {
-                  pattern = {'*.org'},
-                  group = group,
-                  command = 'setlocal nowrap'
-                })
+                    if not vim.tbl_isempty(result) then
+                      require('orgmode.notifications.notification_popup'):new({
+                        content = result
+                      })
+                    end
+                  end,
+                  cron_notifier = function(tasks)
+                    for _, task in ipairs(tasks) do
+                      local icon =
+                          "${pkgs.kdePackages.oxygen-icons}/share/icons/oxygen/base/64x64/mimetypes/text-calendar.png"
+                      local title = string.format('%s (%s)', task.category,
+                                                  task.humanized_duration)
+                      local subtitle = string.format('%s %s %s', string.rep('*', task.level),
+                                                     task.todo, task.title)
+                      local date = string.format('%s: %s', task.type, task.time:to_string())
 
-              '';
+                      -- Linux
+                      if vim.fn.executable('notify-send') == 1 then
+                        vim.loop.spawn('notify-send', {
+                          args = {
+                            '-i', icon, string.format('%s\n%s\n%s', title, subtitle, date)
+                          }
+                        })
+                      end
+
+                    end
+                  end
+                },
+              })
+
+              vim.api.nvim_create_autocmd('BufEnter', {
+                pattern = {'*.org'},
+                group = group,
+                command = 'setlocal nowrap'
+              })
+
+            '';
           };
         };
         luaConfigPost = ''

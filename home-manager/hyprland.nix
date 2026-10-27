@@ -228,6 +228,7 @@ in
         ]
       ) (lib.range 1 10);
       startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+        noctalia & 
         pypr &
         hyprland-autoname-workspaces &
         paplay ${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/desktop-login.oga &

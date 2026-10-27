@@ -125,6 +125,8 @@
     udisks2.enable = true;
   };
 
+  services.usbmuxd.enable = true;
+
   services.gnome.gnome-keyring.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -170,6 +172,8 @@
     jq
     p7zip
     nvd
+    libimobiledevice
+    ifuse
   ];
 
   nixpkgs.config.allowUnfreePredicate =
@@ -199,6 +203,8 @@
     xwayland.enable = true;
     # portalPackage = pkgs-stable.xdg-desktop-portal-hyprland;
   };
+
+  xdg.menus.enable = true;
 
   fonts.packages = with pkgs; [
     noto-fonts

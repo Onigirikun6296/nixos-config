@@ -1,9 +1,9 @@
 {userSettings, ...}: {
   programs.waybar = {
-    enable = true;
+    enable = false;
     systemd = {
       enable = true;
-      target = "hyprland-session.target";
+      targets = ["hyprland-session.target"];
     };
     settings = {
       mainBar = {
@@ -135,6 +135,13 @@
           padding-bottom: 0;
           border-radius: 0;
           color: white;
+        }
+        #workspaces button.active {
+          padding-top: 0;
+          padding-bottom: 0;
+          border-radius: 0;
+          color: black;
+          background-color: white;
         }
 
 

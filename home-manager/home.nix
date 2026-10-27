@@ -140,6 +140,8 @@
       lxqt.pavucontrol-qt
       libsForQt5.qt5ct
       pyprland
+      darktable
+      noctalia
     ])
     ++ (with pkgs-unstable; [
       rmpc
@@ -311,7 +313,7 @@
         let
           plugin-src = pkgs.fetchgit {
             url = "https://github.com/yazi-rs/plugins/";
-            hash = "sha256-7vsqHvdNimH/YVWegfAo7DfJ+InDr3a1aNU0f+gjcdw=";
+            hash = "sha256-rgelX8Aj6iPYzk3NZN5NLMiJ/dQKJD2BKXsrK6xXdkc=";
           };
         in
         {
@@ -958,7 +960,7 @@
 
   services = {
     mako = {
-      enable = true;
+      enable = false;
       settings = {
         anchor = "top-right";
         layer = "overlay";

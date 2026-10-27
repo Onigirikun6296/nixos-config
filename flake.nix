@@ -2,11 +2,11 @@
   description = "Oni's flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs.url = "nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
@@ -59,7 +59,7 @@
 
       name = "Oni";
       email = "oni@onigiribentou.com";
-      wallpaper ="$HOME/Pictures/Wallpapers/pexels-strannik-sk-31794296.jpg";
+      wallpaper ="/home/${username}/Pictures/Wallpapers/pexels-strannik-sk-31794296.jpg";
       lock_wallpaper = wallpaper;
 
       mainFont = "Ttyp0";
@@ -112,6 +112,7 @@
           disko.nixosModules.disko
           ./disk-config.nix
           ./system/configuration.nix
+          ./system/printer.nix
           ./system/hardware-configuration.nix
           ./system/bluetooth.nix
         ];
